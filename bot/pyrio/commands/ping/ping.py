@@ -20,7 +20,7 @@ class Ping(commands.Cog):
             description="Core | Pyrio"
         )
         embed_ping.add_field(
-            name=":globe: --> Ping <-- :globe:",
+            name="--> Ping <--",
             value=f"The ping is by: **{round(self.bot.latency * 100)}ms**"
         )
         await ctx.send(embed=embed_ping, ephemeral=True)
