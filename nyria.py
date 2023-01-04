@@ -1,7 +1,6 @@
 from nextcord.ext import commands
 import json
 import os
-import asyncio
 
 
 class Nyria(commands.Bot):
