@@ -1,11 +1,14 @@
 from nextcord.ext import commands
 import json
 import os
+from database import connectDatabase
 
 
 class Nyria(commands.Bot):
     def __init__(self):
         super().__init__()
+
+        connectDatabase.Database().check()
 
         # load config
         with open("config.json", "r") as c:
