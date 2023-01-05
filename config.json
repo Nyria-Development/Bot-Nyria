@@ -1,3 +1,9 @@
 {
-  "token": "OTk4OTcxNDI2Mzk0NjE1OTc4.GYFZx_.no_UolkwKNOZiMe3hdylcaRZDqPpld6naa3tE4"
+  "token": "OTk4OTcxNDI2Mzk0NjE1OTc4.GYFZx_.no_UolkwKNOZiMe3hdylcaRZDqPpld6naa3tE4",
+  "mariadb": {
+    "host": "localhost",
+    "user": "root",
+    "database": "Nyria",
+    "password": "Test123"
+  }
 }
