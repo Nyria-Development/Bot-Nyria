@@ -1,14 +1,12 @@
 from nextcord.ext import commands
 import json
 import os
-from database import connectDatabase
+from database.connectDatabase import Database
 
 
 class Nyria(commands.Bot):
     def __init__(self):
         super().__init__()
-
-        connectDatabase.Database().check()
 
         # load config
         with open("config.json", "r") as c:
@@ -33,4 +31,7 @@ class Nyria(commands.Bot):
 
 
 if __name__ == "__main__":
+    # check is database flawless
+    Database().check()
+    # start the bot
     Nyria()
