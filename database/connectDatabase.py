@@ -27,13 +27,15 @@ class Database:
             if str(table[0]).lower() == "nyria":
                 state_database = True
                 print("Database faultless")
+                connection.close()
 
         if not state_database:
-            self.create()
+            self.create(connection=connection)
 
-    def create(self):
+    @staticmethod
+    def create(connection):
         # create database
-        pass
+        connection.close()
 
     async def connect(self, pool_name: str, pool_size: int):
         connection_pool: pooling.MySQLConnectionPool = pooling.MySQLConnectionPool(
