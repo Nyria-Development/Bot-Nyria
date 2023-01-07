@@ -1,9 +1,7 @@
 from nextcord.ext import commands
 import json
 import os
-import threading
 from database import connectDatabase
-from website import site
 
 
 class Nyria(commands.Bot):
@@ -33,8 +31,6 @@ class Nyria(commands.Bot):
 
 
 if __name__ == "__main__":
-    # start flask server
-    threading.Thread(target=site.WebserverNyria().site).start()
     # check if database flawless
     connectDatabase.Database().check()
     # start the bot
