@@ -31,7 +31,7 @@ class Nyria(commands.Bot):
 
 
 if __name__ == "__main__":
-    # check if database flawless
+    # check if database faultless
     connectDatabase.Database().check()
     # start the bot
     Nyria()
