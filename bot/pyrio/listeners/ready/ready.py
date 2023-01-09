@@ -1,6 +1,4 @@
 from nextcord.ext import commands
-import threading
-from website import site
 
 
 class Ready(commands.Cog):
@@ -21,9 +19,6 @@ class Ready(commands.Cog):
         |_|\_| \_, ||_|  |_|\__,_| 
                |__/  
         """)
-
-        # start flask server
-        threading.Thread(target=site.WebserverNyria).start()
 
 
 def setup(bot):
