@@ -15,9 +15,8 @@ class Status(commands.Cog):
             status=nextcord.Status.do_not_disturb
         )
         await asyncio.sleep(15)
-
         await self.bot.change_presence(
-            activity=nextcord.Game("Nyria is open source: https://github.com/Nyria-Discord"),
+            activity=nextcord.Game(f"Nyria supported {len(self.bot.guilds)} Server."),
             status=nextcord.Status.do_not_disturb
         )
 
