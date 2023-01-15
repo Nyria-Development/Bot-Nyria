@@ -1,4 +1,6 @@
 from nextcord.ext import commands
+import threading
+from website import site
 
 
 class Ready(commands.Cog):
@@ -19,6 +21,9 @@ class Ready(commands.Cog):
         |_|\_| \_, ||_|  |_|\__,_| 
                |__/  
         """)
+
+        threading.Thread(target=site.WebserverNyria).start()
+        print("Website started")
 
 
 def setup(bot):
