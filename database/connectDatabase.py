@@ -1,5 +1,6 @@
 import mysql.connector
 from mysql.connector import pooling
+from mysql.connector.errors import Error
 import json
 
 
@@ -14,11 +15,16 @@ class Database:
 
     def check(self):
         state_database: bool = False
-        connection = mysql.connector.connect(
-            host=self.host,
-            user=self.user,
-            password=self.password
-        )
+        try:
+            connection = mysql.connector.connect(
+                host=self.host,
+                user=self.user,
+                password=self.password
+            )
+        except Error:
+            print("Database not reachable")
+            exit()
+
         cursor = connection.cursor(prepared=True)
         cursor.execute("Show databases")
         tables = cursor.fetchall()
@@ -34,11 +40,16 @@ class Database:
 
     @staticmethod
     def create(connection):
-        # create database
+        cursor = connection.cursor(prepared=True)
+
+        # create database Nyria
+        cursor.execute("CREATE DATABASE Nyria")
+        connection.commit()
+
         connection.close()
 
     async def connect(self, pool_name: str, pool_size: int):
-        connection_pool: pooling.MySQLConnectionPool = pooling.MySQLConnectionPool(
+        connection_pool = pooling.MySQLConnectionPool(
             pool_size=pool_size,
             pool_name=pool_name,
             host=self.host,
