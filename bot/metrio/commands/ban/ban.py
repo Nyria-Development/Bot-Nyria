@@ -10,7 +10,8 @@ class Ban(commands.Cog):
     @nextcord.slash_command(
         name="metrio-ban",
         description="Ban a member",
-        force_global=True
+        force_global=True,
+        default_member_permissions=8
     )
     async def ban(self, ctx: nextcord.Interaction, user: nextcord.Member, reason: str):
         await ctx.guild.ban(user=user, reason=reason)

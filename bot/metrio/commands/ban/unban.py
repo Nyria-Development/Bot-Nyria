@@ -9,7 +9,8 @@ class Unban(commands.Cog):
     @nextcord.slash_command(
         name="metrio-unban",
         description="Unban a member",
-        force_global=True
+        force_global=True,
+        default_member_permissions=8
     )
     async def unban(self, ctx: nextcord.Interaction):
         pass

@@ -9,7 +9,8 @@ class ToggleModule(commands.Cog):
     @nextcord.slash_command(
         name="pyrio-toggle-module",
         description="Toggle any module off or on.",
-        force_global=True
+        force_global=True,
+        default_member_permissions=8
     )
     async def toggle_module(self, ctx: nextcord.Interaction):
         pass
