@@ -10,7 +10,8 @@ class Kick(commands.Cog):
     @nextcord.slash_command(
         name="metrio-kick",
         description="Kick any member from the discord server.",
-        force_global=True
+        force_global=True,
+        default_member_permissions=8
     )
     async def kick(self, ctx: nextcord.Interaction, user: nextcord.Member, reason: str):
         await ctx.guild.kick(user=user, reason=reason)
@@ -21,7 +22,7 @@ class Kick(commands.Cog):
             description="Moderation | Metrio",
             color=nextcord.Color.red()
         )
-        embed_kick.add_field(name="Reason", value=reason)
+        embed_kick.add_field(name=f"Kicked from {ctx.guild} | Reason", value=reason)
         await user.send(embed=embed_kick)
 
 
