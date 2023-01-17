@@ -7,6 +7,10 @@ from database import connectDatabase
 class Bugs(commands.Cog):
     def __init__(self, bot: commands.Bot):
         self.bot = bot
+        self.connection_pool = connectDatabase.Database().connect(
+            pool_name="pool_bugs",
+            pool_size=2
+        )
 
     @nextcord.slash_command(
         name="pyrio-bug",
@@ -15,11 +19,8 @@ class Bugs(commands.Cog):
     )
     async def bugs(self, ctx: nextcord.Interaction, bug: str):
         report_user = ctx.user
-        connection_pool = await connectDatabase.Database().connect(
-            pool_name="pool_bugs",
-            pool_size=2
-        )
-        connection = connection_pool.get_connection()
+
+        connection = self.connection_pool.get_connection()
         cursor = connection.cursor(prepared=True)
 
         query = "SELECT reports FROM bugreports WHERE userId=%s"
