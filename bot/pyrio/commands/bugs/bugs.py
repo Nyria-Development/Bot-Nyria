@@ -1,6 +1,7 @@
 import nextcord
 from nextcord.ext import commands
 from templates import embeds
+from database import connectDatabase
 
 
 class Bugs(commands.Cog):
@@ -9,10 +10,45 @@ class Bugs(commands.Cog):
 
     @nextcord.slash_command(
         name="pyrio-bug",
-        description="You found a bug. Here you can report it.",
+        description="You found a bug? Here you can report it.",
         force_global=True
     )
     async def bugs(self, ctx: nextcord.Interaction, bug: str):
+        report_user = ctx.user
+        connection_pool = await connectDatabase.Database().connect(
+            pool_name="pool_bugs",
+            pool_size=2
+        )
+        connection = connection_pool.get_connection()
+        cursor = connection.cursor(prepared=True)
+
+        query = "SELECT reports FROM bugreports WHERE userId=%s"
+        data = [int(report_user.id)]
+
+        cursor.execute(query, data)
+        reports = cursor.fetchall()
+        print(reports)
+
+        if not reports:
+            query = "INSERT INTO bugreports (userId, reports) VALUE (%s,%s)"
+            data = (int(report_user.id), 1)
+
+            cursor.execute(query, data)
+            connection.commit()
+            connection.close()
+
+        if reports and int(reports[0][0]) < 10:
+            query = f"UPDATE bugreports SET reports={int(reports[0][0]) + 1} WHERE userId=%s"
+            data = [int(report_user.id)]
+
+            cursor.execute(query, data)
+            connection.commit()
+            connection.close()
+
+        if reports and int(reports[0][0]) >= 10:
+            connection.close()
+            return await ctx.send("Please wait before you report a bug again.", ephemeral=True)
+
         embed_bugs = embeds.TemplateEmbed(
             bot=self.bot,
             ctx=ctx,
