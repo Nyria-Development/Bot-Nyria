@@ -27,7 +27,6 @@ class Bugs(commands.Cog):
 
         cursor.execute(query, data)
         reports = cursor.fetchall()
-        print(reports)
 
         if not reports:
             query = "INSERT INTO bugreports (userId, reports) VALUE (%s,%s)"
