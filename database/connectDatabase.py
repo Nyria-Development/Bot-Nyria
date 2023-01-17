@@ -48,7 +48,7 @@ class Database:
 
         connection.close()
 
-    async def connect(self, pool_name: str, pool_size: int):
+    def connect(self, pool_name: str, pool_size: int):
         connection_pool = pooling.MySQLConnectionPool(
             pool_size=pool_size,
             pool_name=pool_name,
