@@ -8,7 +8,7 @@ class VoiceInit(commands.Cog):
 
     @nextcord.slash_command(
         name="kanio-voice-init",
-        description="Voice",
+        description="Setup the voice system.",
         force_global=True,
         default_member_permissions=8
     )
