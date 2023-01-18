@@ -27,6 +27,9 @@ class TalkManager(commands.Cog):
         if str(before.channel) == f"{member.name}-VC":
             channel = nextcord.utils.get(category.channels, name=f"{member.name}-VC")
 
+            if channel.members:
+                return
+
             await channel.delete()
 
 
