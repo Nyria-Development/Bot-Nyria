@@ -2,16 +2,16 @@ import nextcord
 from nextcord.ext import commands
 
 
-class VoiceHost(commands.Cog):
+class VoiceLimit(commands.Cog):
     def __init__(self, bot: commands.Bot):
         self.bot = bot
 
     @nextcord.slash_command(
-        name="kanio-voice-change-host",
-        description="Change the Host of the voice channel.",
+        name="kanio-voice-limit",
+        description="Change the limit from the voice channel.",
         force_global=True
     )
-    async def voice_change_host(self, ctx: nextcord.Interaction, user: nextcord.Member):
+    async def voice_limit(self, ctx: nextcord.Interaction, limit: int):
         category = nextcord.utils.get(ctx.guild.categories, name="Voice")
 
         if category is None:
@@ -25,9 +25,9 @@ class VoiceHost(commands.Cog):
         if str(ctx.user.name).lower() != str(voice_state.channel.name[:-3]).lower():
             return await ctx.send("You have no permission to do that.", ephemeral=True)
 
-        await voice_state.channel.edit(name=f"{user.name}-VC")
-        await ctx.send(f"Host changed to {user}")
+        await voice_state.channel.edit(user_limit=limit)
+        await ctx.send(f"Limit changed to {limit}.", ephemeral=True)
 
 
 def setup(bot):
-    bot.add_cog(VoiceHost(bot))
+    bot.add_cog(VoiceLimit(bot))
