@@ -20,9 +20,6 @@ class VoiceHost(commands.Cog):
         # get voice channel
         voice_state = ctx.user.voice
 
-        if voice_state.channel not in category.channels:
-            return await ctx.send("Please select a channel in the category **Voice**", ephemeral=True)
-
         if str(ctx.user.name).lower() != str(voice_state.channel.name[:-3]).lower():
             return await ctx.send("You have no permission to do that.", ephemeral=True)
 
