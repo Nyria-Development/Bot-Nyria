@@ -26,7 +26,7 @@ class VoiceHost(commands.Cog):
             return await ctx.send("You have no permission to do that.", ephemeral=True)
 
         await voice_state.channel.edit(name=f"{user.name}-VC")
-        await ctx.send(f"Host changed to {user}")
+        await ctx.send(f"Host changed to {user}", ephemeral=True)
 
 
 def setup(bot):

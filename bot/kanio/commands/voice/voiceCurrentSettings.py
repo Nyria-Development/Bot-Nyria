@@ -23,8 +23,8 @@ class VoiceCurrentSettings(commands.Cog):
         if voice_state is None:
             return await ctx.send("You are currently not in a voice channel.", ephemeral=True)
 
-        if str(ctx.user.name).lower() != str(voice_state.channel.name[:-3]).lower():
-            return await ctx.send("You have no permission to do that.", ephemeral=True)
+        if voice_state.channel not in category.channels:
+            return await ctx.send("You are not in voice by nyria.", ephemeral=True)
 
         embed_current_settings = embeds.TemplateEmbed(
             bot=self.bot,
