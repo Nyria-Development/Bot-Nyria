@@ -32,7 +32,7 @@ class VoiceCurrentSettings(commands.Cog):
             description="Channels | Kanio",
             color=nextcord.Color.blurple()
         )
-        embed_current_settings.add_field(name="Voice Host", value=ctx.user, inline=False)
+        embed_current_settings.add_field(name="Voice Host", value=voice_state.channel.name[:-3], inline=False)
         embed_current_settings.add_field(name="User Limit", value=voice_state.channel.user_limit)
         embed_current_settings.add_field(name="Channel ID", value=voice_state.channel.id)
         embed_current_settings.add_field(name="Muted", value=voice_state.self_mute, inline=False)
