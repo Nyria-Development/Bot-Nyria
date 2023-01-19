@@ -2,7 +2,7 @@ import nextcord
 from nextcord.ext import commands
 
 
-class VocieManager(commands.Cog):
+class VoiceManager(commands.Cog):
     def __init__(self, bot: commands.Bot):
         self.bot = bot
         self.perms = ("priority_speaker", "mute_members")
@@ -34,4 +34,4 @@ class VocieManager(commands.Cog):
 
 
 def setup(bot):
-    bot.add_cog(VocieManager(bot))
+    bot.add_cog(VoiceManager(bot))
