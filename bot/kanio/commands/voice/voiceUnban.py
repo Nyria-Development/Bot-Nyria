@@ -26,7 +26,7 @@ class VoiceUnban(commands.Cog):
             return await ctx.send("You have no permission to do that.", ephemeral=True)
 
         await voice_state.channel.set_permissions(user, view_channel=True)
-        await ctx.send(f"The user {user} was unbanned.")
+        await ctx.send(f"The user {user} was unbanned.", ephemeral=True)
 
 
 def setup(bot):
