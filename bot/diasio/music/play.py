@@ -9,7 +9,7 @@ class Play(commands.Cog):
         self.bot = bot
 
     @nextcord.slash_command(
-        name="diasio-play",
+        name="diasio-music-play",
         description="Play your favourite music in a voice channel.",
         guild_ids=[1043477521473212547, 1032632067307085955]
     )
@@ -18,7 +18,7 @@ class Play(commands.Cog):
 
         if url.startswith("http"):
             if not url.startswith("https://www.youtube.com") or url.startswith("https://youtu.be"):
-                return await ctx.send("You can only play YouTube links.")
+                return await ctx.send("You can only play YouTube links.", ephemeral=True)
 
         node = wavelink.NodePool.get_node()
 
