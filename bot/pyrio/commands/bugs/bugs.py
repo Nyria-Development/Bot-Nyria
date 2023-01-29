@@ -1,6 +1,6 @@
 import nextcord
 from nextcord.ext import commands
-from templates import embeds
+from src.templates import embeds
 from database import connectDatabase
 
 

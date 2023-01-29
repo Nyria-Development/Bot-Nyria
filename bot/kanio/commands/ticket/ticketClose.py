@@ -1,7 +1,7 @@
 import nextcord
 import nextcord.ext
 from nextcord.ext import commands, application_checks
-from templates import selects, embeds
+from src.templates import selects, embeds
 
 
 class TicketClose(commands.Cog):

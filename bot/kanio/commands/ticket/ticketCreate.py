@@ -1,7 +1,7 @@
 import nextcord
 import nextcord.ext
 from nextcord.ext import commands
-from templates import buttons, embeds
+from src.templates import embeds, buttons
 
 
 class TicketCreate(commands.Cog):

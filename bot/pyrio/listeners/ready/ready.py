@@ -22,8 +22,8 @@ class Ready(commands.Cog):
                |__/  
         """)
 
-        threading.Thread(target=site.WebserverNyria).start()
-        print("Website started")
+        # threading.Thread(target=site.WebserverNyria).start()
+        # print("Website started")
 
 
 def setup(bot):

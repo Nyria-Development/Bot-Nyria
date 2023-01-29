@@ -1,7 +1,7 @@
 import nextcord
 from nextcord.ext import commands
 import wavelink
-from templates import embeds
+from src.templates import embeds
 
 
 class Play(commands.Cog):
