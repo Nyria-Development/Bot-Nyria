@@ -23,14 +23,14 @@ class Bugs(commands.Cog):
         connection = self.connection_pool.get_connection()
         cursor = connection.cursor(prepared=True)
 
-        query = "SELECT reports FROM bugreports WHERE userId=%s"
+        query = "SELECT reports FROM bug_reports WHERE userId=%s"
         data = [int(report_user.id)]
 
         cursor.execute(query, data)
         reports = cursor.fetchall()
 
         if not reports:
-            query = "INSERT INTO bugreports (userId, reports) VALUE (%s,%s)"
+            query = "INSERT INTO bug_reports (userId, reports) VALUE (%s,%s)"
             data = (int(report_user.id), 1)
 
             cursor.execute(query, data)
@@ -38,7 +38,7 @@ class Bugs(commands.Cog):
             connection.close()
 
         if reports and int(reports[0][0]) < 10:
-            query = f"UPDATE bugreports SET reports={int(reports[0][0]) + 1} WHERE userId=%s"
+            query = f"UPDATE bug_reports SET reports={int(reports[0][0]) + 1} WHERE userId=%s"
             data = [int(report_user.id)]
 
             cursor.execute(query, data)
