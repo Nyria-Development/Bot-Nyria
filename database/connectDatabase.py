@@ -44,8 +44,10 @@ class Database:
 
         # create database Nyria
         cursor.execute("CREATE DATABASE Nyria")
-        connection.commit()
+        cursor.execute("USE Nyria")
 
+        cursor.execute("CREATE TABLE bug_reports (userId BIGINT NOT NULL, reports INT NOT NULL)")
+        connection.commit()
         connection.close()
 
     def connect(self, pool_name: str, pool_size: int):
