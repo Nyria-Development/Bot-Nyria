@@ -52,4 +52,3 @@ class TemplateButtonTicket(nextcord.ui.View):
 
         self.add_item(self.button)
         self.add_item(self.button_dc_tos)
-
