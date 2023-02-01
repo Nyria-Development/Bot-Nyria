@@ -30,7 +30,7 @@ class TicketCreate(commands.Cog):
             bot=self.bot,
             ctx=ctx,
             color=nextcord.Color.blurple(),
-            description="Ticket | Kanio"
+            description="Channel | Kanio"
         )
         create_ticket_embed.add_field(
             name="Terms & Conditions",
