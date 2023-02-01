@@ -20,7 +20,7 @@ class Volume(commands.Cog):
         player = node.get_player(ctx.guild)
 
         if player is None:
-            return await ctx.send("The bot is not in voice channel.", ephemeral=True)
+            return await ctx.send("The bot is not in permissions channel.", ephemeral=True)
 
         await player.set_volume(volume)
         await ctx.send(f"Volume set by: {volume}", ephemeral=True)
