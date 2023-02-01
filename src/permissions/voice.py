@@ -17,7 +17,6 @@ async def get_host(channel_id: int):
 
 async def remove_perms(channel_id: int):
     del __perms[channel_id]
-    print(__perms)
 
 
 async def check_permissions(ctx: nextcord.Interaction, voice: nextcord.VoiceChannel):
