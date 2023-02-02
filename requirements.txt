@@ -1,4 +1,5 @@
-nextcord~=2.3.2
-mysql-connector-python~=8.0.31
-Flask~=2.2.2
+nextcord
+mysql-connector-python
+Flask
 wavelink
+spacy
