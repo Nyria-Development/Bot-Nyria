@@ -3,3 +3,4 @@ mysql-connector-python
 Flask
 wavelink
 spacy
+deep_translator
