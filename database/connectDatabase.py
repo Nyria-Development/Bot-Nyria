@@ -40,7 +40,7 @@ class Database:
 
     @staticmethod
     def create(connection):
-        cursor = connection.cursor(prepared=True)
+        cursor = connection.cursor()
 
         # create database Nyria
         cursor.execute("CREATE DATABASE Nyria")
