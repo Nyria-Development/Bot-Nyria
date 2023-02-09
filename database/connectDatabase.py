@@ -47,6 +47,7 @@ class Database:
         cursor.execute("USE Nyria")
 
         cursor.execute("CREATE TABLE bug_reports (userId BIGINT NOT NULL, reports INT NOT NULL)")
+        cursor.execute("CREATE TABLE cards (serverId BIGINT NOT NULL, channelId BIGINT NOT NULL, color TEXT NOT NULL, background TEXT NOT NULL)")
         connection.commit()
         connection.close()
 
