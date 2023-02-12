@@ -14,3 +14,15 @@ class JsonLoader:
 
     async def maria_db(self):
         return self.__config["mariadb"]["host"], self.__config["mariadb"]["user"], self.__config["mariadb"]["password"], self.__config["mariadb"]["database"]
+
+    async def get_welcome_colors(self):
+        colors: dict = self.__config["kanio"]["welcome_colors"][0]
+        return colors
+
+    async def get_welcome_backgrounds(self):
+        bgs: dict = self.__config["kanio"]["welcome_bg"][0]
+        return bgs
+
+    async def get_voting_numbers(self):
+        nums: dict = self.__config["kanio"]["voting_numbers"][0]
+        return nums
