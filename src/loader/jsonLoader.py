@@ -26,3 +26,6 @@ class JsonLoader:
     async def get_voting_numbers(self):
         nums: dict = self.__config["kanio"]["voting_numbers"][0]
         return nums
+
+    async def get_supported_languages(self):
+        return self.__config["diasio"]["supported_languages"][0]
