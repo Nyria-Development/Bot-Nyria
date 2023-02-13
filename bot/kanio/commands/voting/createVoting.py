@@ -45,7 +45,8 @@ class CreateVoting(commands.Cog):
             try:
                 msg: nextcord.Message = await self.bot.wait_for("message", timeout=60*4)
             except asyncio.TimeoutError:
-                return await ctx.send("Canceled Voting", ephemeral=True)
+                await ctx.send("Canceled Voting", ephemeral=True)
+                return await ctx.user.send("Voting Canceled")
 
             user_answers.append(msg.content)
 
