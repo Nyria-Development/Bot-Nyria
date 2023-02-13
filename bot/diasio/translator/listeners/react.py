@@ -27,7 +27,6 @@ class TranslatorReact(commands.Cog):
         translation = translator.translate(message.content)
 
         embed_translation.add_field(name="Translation", value=translation)
-
         await channel.send(embed=embed_translation)
 
 
