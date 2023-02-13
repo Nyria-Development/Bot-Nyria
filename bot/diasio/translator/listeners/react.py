@@ -16,13 +16,17 @@ class TranslatorReact(commands.Cog):
 
         channel = self.bot.get_channel(payload.channel_id)
         message = await channel.fetch_message(payload.message_id)
+        embed_translation = nextcord.Embed(title=self.bot.user.name, description="Fun | Diasio", color=nextcord.Color.dark_gold())
 
-        language = supported_languages[key]
+        try:
+            language = supported_languages[key]
+        except KeyError:
+            embed_translation.add_field(name="Language not found!", value="The language is not supported.")
+            return channel.send(embed=embed_translation)
 
         translator = GoogleTranslator(target=language)
         translation = translator.translate(message.content)
 
-        embed_translation = nextcord.Embed(title=self.bot.user.name, description="Fun | Diasio", color=nextcord.Color.dark_gold())
         embed_translation.add_field(name="Translation", value=translation)
 
         await channel.send(embed=embed_translation)
