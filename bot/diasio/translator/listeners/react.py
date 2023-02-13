@@ -21,8 +21,7 @@ class TranslatorReact(commands.Cog):
         try:
             language = supported_languages[key]
         except KeyError:
-            embed_translation.add_field(name="Language not found!", value="The language is not supported.")
-            return channel.send(embed=embed_translation)
+            return
 
         translator = GoogleTranslator(target=language)
         translation = translator.translate(message.content)
