@@ -13,7 +13,8 @@ class CreateVoting(commands.Cog):
     @nextcord.slash_command(
         name="kanio-voting-create",
         description="Create a voting",
-        force_global=True
+        force_global=True,
+        default_member_permissions=8
     )
     async def create_voting(self,
                             ctx: nextcord.Interaction,
