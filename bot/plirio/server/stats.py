@@ -20,20 +20,19 @@ class ServerStats(commands.Cog):
             color=nextcord.Color.orange()
         )
 
+        embed_stats.set_thumbnail(url=ctx.guild.icon)
+
         server_name = ctx.guild.name
         embed_stats.add_field(name="Server name", value=server_name, inline=False)
 
-        members = len(ctx.guild.members)
-        embed_stats.add_field(name="Members", value=members, inline=False)
-
         server_booster = ctx.guild.premium_subscription_count
-        embed_stats.add_field(name="Server booster", value=server_booster, inline=False)
+        embed_stats.add_field(name="Server booster", value=server_booster)
 
         voice_channels = len(ctx.guild.voice_channels)
-        embed_stats.add_field(name="Voice Channels", value=voice_channels, inline=False)
+        embed_stats.add_field(name="Voice Channels", value=voice_channels)
 
         text_channels = len(ctx.guild.text_channels)
-        embed_stats.add_field(name="Text Channels", value=text_channels, inline=False)
+        embed_stats.add_field(name="Text Channels", value=text_channels)
 
         await ctx.send(embed=embed_stats, ephemeral=True)
 
