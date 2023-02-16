@@ -13,6 +13,7 @@ class TranslatorReact(commands.Cog):
         supported_languages = await jsonLoader.JsonLoader().get_supported_languages()
         emote = bytes(str(payload.emoji), "utf-8")
         key = str(emote).replace("\\", "")[2:-1]
+        user = payload.member
 
         channel = self.bot.get_channel(payload.channel_id)
         message = await channel.fetch_message(payload.message_id)
@@ -27,7 +28,7 @@ class TranslatorReact(commands.Cog):
         translation = translator.translate(message.content)
 
         embed_translation.add_field(name="Translation", value=translation)
-        await channel.send(embed=embed_translation)
+        await user.send(embed=embed_translation)
 
 
 def setup(bot):
