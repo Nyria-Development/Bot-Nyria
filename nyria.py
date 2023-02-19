@@ -1,7 +1,7 @@
 from nextcord.ext import commands
 import json
 import os
-from database import connectDatabase
+from database.check import Check
 
 
 class Nyria(commands.Bot):
@@ -25,13 +25,13 @@ class Nyria(commands.Bot):
 
                 if str(root).endswith("__pycache__"):
                     continue
-                self.load_extension(os.path.join(root, name).replace("\\", ".")[:-3])
+                self.load_extension(os.path.join(root, name).replace("/", ".")[:-3])
 
         self.run(self.__token)
 
 
 if __name__ == "__main__":
     # check if database faultless
-    connectDatabase.Database().check()
+    Check().inspect()
     # start the bot
     Nyria()
