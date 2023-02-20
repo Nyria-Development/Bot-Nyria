@@ -1,5 +1,4 @@
 nextcord
 mysql-connector-python
 Flask
-wavelink
 deep_translator
