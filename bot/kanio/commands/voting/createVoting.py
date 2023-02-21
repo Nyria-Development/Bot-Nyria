@@ -3,6 +3,7 @@ from nextcord.ext import commands
 from src.templates import embeds
 from src.loader.jsonLoader import Kanio
 from src.templates import buttons
+import asyncio
 
 
 class CreateVoting(commands.Cog):
