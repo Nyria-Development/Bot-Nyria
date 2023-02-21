@@ -1,0 +1,8 @@
+{
+  "setup_commands": [
+    {
+      "yes": "yes",
+      "no": "no"
+    }
+  ]
+}

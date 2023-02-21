@@ -1,11 +1,11 @@
 import mysql.connector
-from src.loader.jsonLoader import JsonLoader
+from src.loader.jsonLoader import Tokens
 from mysql.connector.errors import Error
 
 
 class Check:
     def __init__(self):
-        self.host, self.user, self.password, self.database = JsonLoader().maria_db()
+        self.host, self.user, self.password, self.database = Tokens().maria_db()
         self.state_database: bool = False
 
     def inspect(self):

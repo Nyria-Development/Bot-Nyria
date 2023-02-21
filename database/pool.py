@@ -1,5 +1,5 @@
 from mysql.connector import pooling
-from src.loader.jsonLoader import JsonLoader
+from src.loader.jsonLoader import Tokens
 
 
 class Pool:
@@ -7,7 +7,7 @@ class Pool:
         self.pool_name = pool_name
         self.pool_size = pool_size
 
-        self.host, self.user, self.password, self.database = JsonLoader().maria_db()
+        self.host, self.user, self.password, self.database = Tokens().maria_db()
 
     def create(self):
         connection_pool = pooling.MySQLConnectionPool(

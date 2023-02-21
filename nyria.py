@@ -1,5 +1,5 @@
 from nextcord.ext import commands
-import json
+from src.loader.jsonLoader import Tokens
 import os
 from database.check import Check
 
@@ -9,10 +9,7 @@ class Nyria(commands.Bot):
         super().__init__()
 
         # load config
-        with open("config.json", "r") as c:
-            self.__config = json.load(c)
-            self.__token = self.__config["token"]
-        print("Config loaded")
+        self.__token = Tokens().token()
 
         # get all intents
         self.intents.all()

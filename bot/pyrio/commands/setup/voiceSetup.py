@@ -7,12 +7,12 @@ class VoiceInit(commands.Cog):
         self.bot = bot
 
     @nextcord.slash_command(
-        name="kanio-voice-init",
-        description="Setup for voice system.",
+        name="pyrio-setup-voice",
+        description="Setup your voice system.",
         force_global=True,
         default_member_permissions=8
     )
-    async def voice_init(self, ctx: nextcord.Interaction):
+    async def setup_voice(self, ctx: nextcord.Interaction):
         category = nextcord.utils.get(ctx.guild.categories, name="--- Nyria Voice ---")
 
         if category is None:

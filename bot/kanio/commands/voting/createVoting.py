@@ -1,8 +1,7 @@
 import nextcord
 from nextcord.ext import commands
 from src.templates import embeds
-import asyncio
-from src.loader import jsonLoader
+from src.loader.jsonLoader import Kanio
 from src.templates import buttons
 
 
@@ -19,7 +18,7 @@ class CreateVoting(commands.Cog):
     async def create_voting(self,
                             ctx: nextcord.Interaction,
                             question: str,
-                            answer: str = nextcord.SlashOption(name="vote", choices=asyncio.run(jsonLoader.JsonLoader().get_voting_numbers()))):
+                            answer: str = nextcord.SlashOption(name="vote", choices=Kanio().get_voting_numbers())):
         await ctx.response.defer()
 
         user_answers = []
