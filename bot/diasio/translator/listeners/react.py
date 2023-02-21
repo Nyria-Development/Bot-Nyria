@@ -1,7 +1,7 @@
 import nextcord
 from nextcord.ext import commands
 from deep_translator import GoogleTranslator
-from src.loader import jsonLoader
+from src.loader.jsonLoader import Diasio
 
 
 class TranslatorReact(commands.Cog):
@@ -10,7 +10,7 @@ class TranslatorReact(commands.Cog):
 
     @commands.Cog.listener()
     async def on_raw_reaction_add(self, payload: nextcord.RawReactionActionEvent):
-        supported_languages = await jsonLoader.JsonLoader().get_supported_languages()
+        supported_languages = Diasio().get_supported_languages()
         emote = bytes(str(payload.emoji), "utf-8")
         key = str(emote).replace("\\", "")[2:-1]
         user = payload.member
