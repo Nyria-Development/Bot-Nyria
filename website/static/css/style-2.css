@@ -8,14 +8,16 @@
 /*--------------------------------------------------------------
 # General
 --------------------------------------------------------------*/
+@import "root.css";
+
 :root {
   scroll-behavior: smooth;
 }
 
 body {
   font-family: "Open Sans", sans-serif;
-  background: #f6f9ff;
-  color: #444444;
+  background: var(--background-color);
+  color: var(--text-color);
 }
 
 a {
@@ -63,7 +65,7 @@ h6 {
   font-size: 24px;
   margin-bottom: 0;
   font-weight: 600;
-  color: #012970;
+  color: var(--text-color);
 }
 
 /*--------------------------------------------------------------
@@ -104,6 +106,8 @@ h6 {
 --------------------------------------------------------------*/
 /* Dropdown menus */
 .dropdown-menu {
+  --bs-dropdown-color: var(--text-color);
+  --bs-dropdown-bg: var(--background-color);
   border-radius: 4px;
   padding: 10px 0;
   -webkit-animation-name: dropdown-animate;
@@ -138,6 +142,7 @@ h6 {
 }
 
 .dropdown-menu .dropdown-item {
+  color: var(--text-color);
   font-size: 14px;
   padding: 10px 15px;
   transition: 0.3s;
@@ -238,6 +243,11 @@ h6 {
   border: none;
   border-radius: 5px;
   box-shadow: 0px 0 30px rgba(1, 41, 112, 0.1);
+  --bs-card-bg: var(--background-color-2);
+}
+
+.card:hover {
+  --bs-card-bg: var(--hover-color-2);
 }
 
 .card-header,
@@ -252,7 +262,7 @@ h6 {
   padding: 20px 0 15px 0;
   font-size: 18px;
   font-weight: 500;
-  color: #012970;
+  color: var(--bs-primary);
   font-family: "Poppins", sans-serif;
 }
 
@@ -388,7 +398,7 @@ h6 {
 .logo span {
   font-size: 26px;
   font-weight: 700;
-  color: #012970;
+  color: var(--text-color);
   font-family: "Nunito", sans-serif;
 }
 
@@ -397,7 +407,7 @@ h6 {
   z-index: 997;
   height: 60px;
   box-shadow: 0px 2px 20px rgba(1, 41, 112, 0.1);
-  background-color: #fff;
+  background-color: var(--background-color);
   padding-left: 20px;
   /* Toggle Sidebar Button */
   /* Search Bar */
@@ -407,7 +417,7 @@ h6 {
   font-size: 32px;
   padding-left: 10px;
   cursor: pointer;
-  color: #012970;
+  color: var(--text-color);
 }
 
 .header .search-bar {
@@ -484,13 +494,13 @@ h6 {
 
 .header-nav .nav-icon {
   font-size: 22px;
-  color: #012970;
+  color: var(--text-color);
   margin-right: 25px;
   position: relative;
 }
 
 .header-nav .nav-profile {
-  color: #012970;
+  color: var(--text-color);
 }
 
 .header-nav .nav-profile img {
@@ -539,7 +549,7 @@ h6 {
 }
 
 .header-nav .notifications .notification-item:hover {
-  background-color: #f6f9ff;
+  background-color: var(--hover-color);
 }
 
 .header-nav .messages {
@@ -564,7 +574,7 @@ h6 {
   font-size: 16px;
   font-weight: 600;
   margin-bottom: 5px;
-  color: #444444;
+  color: var(--text-color);
 }
 
 .header-nav .messages .message-item p {
@@ -574,7 +584,7 @@ h6 {
 }
 
 .header-nav .messages .message-item:hover {
-  background-color: #f6f9ff;
+  background-color: var(--hover-color);
 }
 
 .header-nav .profile {
@@ -587,7 +597,7 @@ h6 {
   font-size: 18px;
   margin-bottom: 0;
   font-weight: 600;
-  color: #444444;
+  color: var(--text-color);
 }
 
 .header-nav .profile .dropdown-header span {
@@ -607,7 +617,7 @@ h6 {
 }
 
 .header-nav .profile .dropdown-item:hover {
-  background-color: #f6f9ff;
+  background-color: var(--hover-color);
 }
 
 /*--------------------------------------------------------------
@@ -626,7 +636,7 @@ h6 {
   scrollbar-width: thin;
   scrollbar-color: #aab7cf transparent;
   box-shadow: 0px 0px 20px rgba(1, 41, 112, 0.1);
-  background-color: #fff;
+  background-color: var(--background-color);
 }
 
 @media (max-width: 1199px) {
@@ -700,9 +710,9 @@ h6 {
   align-items: center;
   font-size: 15px;
   font-weight: 600;
-  color: #4154f1;
+  color: var(--bs-primary);
   transition: 0.3;
-  background: #f6f9ff;
+  background: var(--background-color-2);
   padding: 10px 15px;
   border-radius: 4px;
 }
@@ -714,8 +724,8 @@ h6 {
 }
 
 .sidebar-nav .nav-link.collapsed {
-  color: #012970;
-  background: #fff;
+  color: var(--text-color);
+  background: var(--background-color-2);
 }
 
 .sidebar-nav .nav-link.collapsed i {
@@ -724,7 +734,7 @@ h6 {
 
 .sidebar-nav .nav-link:hover {
   color: #4154f1;
-  background: #f6f9ff;
+  background: var(--hover-color-2);
 }
 
 .sidebar-nav .nav-link:hover i {
@@ -751,7 +761,7 @@ h6 {
   align-items: center;
   font-size: 14px;
   font-weight: 600;
-  color: #012970;
+  color: var(--text-color);
   transition: 0.3;
   padding: 10px 0 10px 40px;
   transition: 0.3s;
@@ -766,7 +776,7 @@ h6 {
 
 .sidebar-nav .nav-content a:hover,
 .sidebar-nav .nav-content a.active {
-  color: #4154f1;
+  color: var(--text-color-3);
 }
 
 .sidebar-nav .nav-content a.active i {
@@ -1244,12 +1254,12 @@ h6 {
   padding: 20px 0;
   font-size: 14px;
   transition: all 0.3s;
-  border-top: 1px solid #cddfff;
+  border-top: 1px solid var(--background-color-2);
 }
 
 .footer .copyright {
   text-align: center;
-  color: #012970;
+  color: var(--text-color-3);
 }
 
 .footer .credits {
