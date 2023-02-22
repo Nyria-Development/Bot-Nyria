@@ -1,0 +1,14 @@
+/*
+* Define default values for basic behaviours
+* --> file has to be imported '@import "root.css";'
+*/
+:root {
+    --background-color: black;
+    --background-color-2: var(--bs-dark);
+    --background-color-3: #51678f;
+    --text-color: white;
+    --text-color-2: #51678f;
+    --text-color-3: #abbeff;
+    --hover-color: var(--bs-dark);
+    --hover-color-2: rgb(0, 1, 42);
+}
