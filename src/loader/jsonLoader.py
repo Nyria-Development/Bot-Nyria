@@ -35,12 +35,3 @@ class Diasio:
 
     def get_supported_languages(self):
         return self.__config["supported_languages"][0]
-
-
-class Setup:
-    def __init__(self):
-        with open("resources/config/setup.json", "r") as c:
-            self.__config = json.load(c)
-
-    def get_activations(self):
-        return self.__config["setup_commands"][0]
