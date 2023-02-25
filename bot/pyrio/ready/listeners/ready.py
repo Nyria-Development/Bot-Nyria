@@ -1,6 +1,4 @@
 from nextcord.ext import commands
-import threading
-from website import site
 
 
 class Ready(commands.Cog):
