@@ -14,7 +14,7 @@ class Play(commands.Cog):
         )
 
     @nextcord.slash_command(
-        name="diasio-play",
+        name="diasio-music-play",
         description="Play your favourite song in the voice channel.",
         force_global=True
     )
