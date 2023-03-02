@@ -15,7 +15,10 @@ class Tokens:
 
     def maria_db(self):
         return self.__config["mariadb"]["host"], self.__config["mariadb"]["user"], self.__config["mariadb"]["password"], \
-        self.__config["mariadb"]["database"]
+            self.__config["mariadb"]["database"]
+
+    def youtube(self):
+        return self.__config["social_media"]["youtube"]
 
 
 class Kanio:
