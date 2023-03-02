@@ -40,7 +40,7 @@ class Play(commands.Cog):
         if not player.is_playing():
             try:
                 query = await wavelink.YouTubeTrack.search(query=search, return_first=True)
-            except wavelink.LavalinkException:
+            except (wavelink.LavalinkException, IndexError):
                 return await ctx.send("Track not found.")
 
             embed_play.add_field(name="Song name", value=query.title, inline=False)
@@ -74,7 +74,8 @@ class Play(commands.Cog):
                 query="INSERT INTO music (serverId, tracksId, trackName) VALUE (%s,%s,%s)",
                 data=[int(ctx.guild.id), int(min_value[0] - 1), str(search)]
             )
-            return await ctx.send("Song added to queue.")
+            embed_play.add_field(name="Added to queue", value=search)
+            return await ctx.send(embed=embed_play)
 
 
 def setup(bot):

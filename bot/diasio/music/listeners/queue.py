@@ -21,16 +21,16 @@ class Queue(commands.Cog):
         if not track_ids:
             return
 
-        max_value = max(track_ids)
+        min_value = min(track_ids)
         track_name = self.database.execute(
             query="SELECT trackName FROM music WHERE serverId=%s AND tracksId=%s",
-            data=[int(player.guild.id), int(max_value[0])]
+            data=[int(player.guild.id), int(min_value[0])]
         )
 
         query = await wavelink.YouTubeTrack.search(query=track_name[0][0], return_first=True)
         self.database.execute(
             query="DELETE FROM music WHERE tracksId=%s AND serverId=%s",
-            data=[int(max_value[0]), int(player.guild.id)]
+            data=[int(min_value[0]), int(player.guild.id)]
         )
         await player.play(query)
 
