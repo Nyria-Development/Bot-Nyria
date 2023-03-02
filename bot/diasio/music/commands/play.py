@@ -21,6 +21,9 @@ class Play(commands.Cog):
     async def play(self, ctx: nextcord.Interaction, search: str):
         await ctx.response.defer()
 
+        if ctx.user.voice is None:
+            return await ctx.send("You need to connect to a voice channel.", ephemeral=True)
+
         if search.startswith("https://"):
             if not search.startswith("https://www.youtube.com") or search.startswith("https://youtu.be"):
                 return await ctx.send("You can only play youtube links.", ephemeral=True)
