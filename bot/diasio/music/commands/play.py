@@ -58,12 +58,13 @@ class Play(commands.Cog):
                 data=[int(ctx.guild.id)]
             )
 
-            if not tracks_ids and player.is_playing():
+            if not tracks_ids:
                 self.database.execute(
                     query="INSERT INTO music (serverId, tracksId, trackName) VALUE (%s,%s,%s)",
                     data=[int(ctx.guild.id), int(50), str(search)]
                 )
-                return await ctx.send("Song added to queue.")
+                embed_play.add_field(name="Added to queue", value=search)
+                return await ctx.send(embed=embed_play)
 
             min_value = min(tracks_ids)
             if min_value[0] < 1:
