@@ -10,7 +10,7 @@ class Stop(commands.Cog):
     @nextcord.slash_command(
         name="diasio-music-stop",
         description="Stop playing music in the voice channel.",
-        force_global=True
+        guild_ids=[1032632067307085955]
     )
     async def music_stop(self, ctx: nextcord.Interaction):
         node = wavelink.NodePool.get_node()

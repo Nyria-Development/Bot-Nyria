@@ -10,7 +10,7 @@ class Resume(commands.Cog):
     @nextcord.slash_command(
         name="diasio-music-resume",
         description="Resume song in voice channel.",
-        force_global=True
+        guild_ids=[1032632067307085955]
     )
     async def resume(self, ctx: nextcord.Interaction):
         node = wavelink.NodePool.get_node()
