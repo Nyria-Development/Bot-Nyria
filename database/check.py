@@ -40,7 +40,6 @@ class Check:
         cursor.execute("USE Nyria")
 
         cursor.execute("CREATE TABLE bug_reports (userId BIGINT NOT NULL, reports INT NOT NULL)")
-        cursor.execute("CREATE TABLE welcome (serverId BIGINT NOT NULL, channelId BIGINT NOT NULL)")
         cursor.execute("CREATE TABLE music (serverId BIGINT NOT NULL, tracksId INT NOT NULL, trackName TEXT NOT NULL)")
 
         connection.commit()
