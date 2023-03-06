@@ -38,3 +38,12 @@ class Diasio:
 
     def get_supported_languages(self):
         return self.__config["supported_languages"][0]
+
+
+class Plirio:
+    def __init__(self):
+        with open("resources/config/plirio.json", "r") as c:
+            self.__config = json.load(c)
+
+    def credits(self):
+        return self.__config
