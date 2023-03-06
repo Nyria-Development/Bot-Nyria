@@ -39,6 +39,9 @@ class Diasio:
     def get_supported_languages(self):
         return self.__config["supported_languages"][0]
 
+    def get_minecraft_server_types(self):
+        return self.__config["minecraft_server_type"]
+
 
 class Plirio:
     def __init__(self):
