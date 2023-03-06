@@ -10,7 +10,7 @@ class Pause(commands.Cog):
     @nextcord.slash_command(
         name="diasio-music-pause",
         description="Pause a song if bot is playing music.",
-        guild_ids=[1032632067307085955]
+        guild_ids=[1032632067307085955, 1043477521473212547, 871106346123137054]
     )
     async def pause(self, ctx: nextcord.Interaction):
         node = wavelink.NodePool.get_node()
