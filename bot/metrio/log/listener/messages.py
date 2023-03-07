@@ -1,6 +1,6 @@
 import nextcord
 from nextcord.ext import commands
-from src.loader.jsonLoader import metrio
+from src.loader.jsonLoader import Metrio
 
 
 class Messages(commands.Cog):
@@ -11,7 +11,7 @@ class Messages(commands.Cog):
     async def on_message(self, message: nextcord.Message):
         if not message.author.bot:
             print(message.content)
-            for guild in metrio().get_guilds():
+            for guild in Metrio().get_guilds():
                 if guild['log_channel_id'] == message.guild.id:
                     #sucht die rightige Guilde raus...
                     print(guild)
