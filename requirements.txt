@@ -1,5 +1,6 @@
-nextcord~=2.3.3
-mysql-connector-python~=8.0.32
+nextcord
+mysql-connector-python
 deep_translator
 wavelink
 google-api-python-client
+mcstatus
