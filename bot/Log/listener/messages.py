@@ -11,14 +11,14 @@ class messages(commands.Cog):
         self.bot = bot
 
     @commands.Cog.listener()
-    async def on_message(self, message: str):
+    async def on_message(self, message):
         if message.author.bot == False:
-            print(message)
-            LogChannel = self.bot.get_channel(1082632691196903424)
-            logEmbed = nextcord.Embed(title="Neue Nachricht",
+            print(message.content)
+            log_channel = self.bot.get_channel(1082632691196903424)
+            log_embed = nextcord.Embed(title="",
                                      description=f"Eine neue Nachricht wurde von {message.author.mention} in {message.channel.mention} verfasst",
                                      color=0x081e8c)
-            await LogChannel.send(embed=logEmbed)
+            await log_channel.send(embed=log_embed)
 
     @commands.Cog.listener()
     async def on_message_delete(self, message: str):
