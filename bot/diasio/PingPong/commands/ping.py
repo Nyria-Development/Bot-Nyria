@@ -14,6 +14,5 @@ class PingPong(commands.Cog):
         await ctx.send("Pong!")
 
 
-
 def setup(bot):
     bot.add_cog(PingPong(bot))
