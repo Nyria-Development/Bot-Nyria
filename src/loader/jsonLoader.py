@@ -51,7 +51,8 @@ class Plirio:
     def credits(self):
         return self.__config
 
-class metrio:
+
+class Metrio:
     def __init__(self):
         with open("resources/config/guilds.json", "r") as c:
             self.__config = json.load(c)
