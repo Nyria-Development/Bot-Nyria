@@ -1,5 +1,6 @@
 import nextcord
 from nextcord.ext import commands
+from src.loader.jsonLoader import metrio
 
 
 class Messages(commands.Cog):
@@ -10,7 +11,11 @@ class Messages(commands.Cog):
     async def on_message(self, message: nextcord.Message):
         if not message.author.bot:
             print(message.content)
-            log_channel = self.bot.get_channel(1082632691196903424)
+            for guild in metrio().get_guilds():
+                if guild['log_channel_id'] == message.guild.id:
+                    #sucht die rightige Guilde raus...
+                    print(guild)
+            log_channel = self.bot.get_channel(1082632691196903424) #hier wird dann die ID für die Guilde hineingefügt
             log_embed = nextcord.Embed(title="New message",
                                        description=f"A new message from {message.author.mention} was send to {message.channel.mention}.",
                                        color=0x081e8c)

@@ -1,0 +1,18 @@
+[
+    {
+        "guild_id": 234124,
+        "log_channel_id": null,
+        "show_log_for": {
+            "message": true,
+            "join_and_left": true
+        }
+    },
+    {
+        "guild_id": 1078731236098449408,
+        "log_channel_id": 1078743493813473370,
+        "show_log_for": {
+            "message": true,
+            "join_and_left": true
+        }
+    }
+]
