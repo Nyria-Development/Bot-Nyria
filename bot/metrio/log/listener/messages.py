@@ -1,6 +1,7 @@
 import nextcord
 from nextcord.ext import commands
 from src.dictionaries import logs
+from src.templates import embeds
 
 
 class Messages(commands.Cog):
@@ -17,11 +18,14 @@ class Messages(commands.Cog):
         if log_channel is None:
             return
 
-        log_embed = nextcord.Embed(
-            title="New message",
-            description=f"A new message from {message.author.mention} was send to {message.channel.mention}.",
-            color=0x081e8c
+        log_embed = embeds.MessageEmbed(
+            bot=self.bot,
+            message=message,
+            description="Moderation | Metrio",
+            color=nextcord.Color.blue()
         )
+        log_embed.add_field(name="Channel", value=message.channel)
+        log_embed.add_field(name="New Message", value=message.content)
         await log_channel.send(embed=log_embed)
 
     @commands.Cog.listener()
@@ -31,11 +35,14 @@ class Messages(commands.Cog):
         if log_channel is None:
             return
 
-        log_embed = nextcord.Embed(
-            title="Message was deleted",
-            description=f"A message by {message.author.mention} was deleted in {message.channel.mention}.",
-            color=0x081e8c
+        log_embed = embeds.MessageEmbed(
+            bot=self.bot,
+            message=message,
+            description="Moderation | Metrio",
+            color=nextcord.Color.blue()
         )
+        log_embed.add_field(name="Channel", value=message.channel)
+        log_embed.add_field(name="New Message", value=message.content)
         await log_channel.send(embed=log_embed)
 
     @commands.Cog.listener()
@@ -45,17 +52,14 @@ class Messages(commands.Cog):
         if log_channel is None:
             return
 
-        log_embed = nextcord.Embed(
-            title="Message was edited",
-            description=f"A message from {before.author.mention} was edited in {before.channel.mention}.",
-            color=0x081e8c
+        log_embed = embeds.MessageEmbed(
+            bot=self.bot,
+            message=after,
+            description="Moderation | Metrio",
+            color=nextcord.Color.blue()
         )
-
-        if before.content:
-            log_embed.add_field(name="before Content", value=before.content)
-
-        if after.content:
-            log_embed.add_field(name="after Content", value=after.content)
+        log_embed.add_field(name="before Content", value=before.content)
+        log_embed.add_field(name="after Content", value=after.content)
 
         await log_channel.send(embed=log_embed)
 
