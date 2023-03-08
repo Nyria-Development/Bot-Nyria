@@ -14,6 +14,9 @@ class Messages(commands.Cog):
 
         log_channel = self.bot.get_channel(logs.get_log_channel(server_id=message.guild.id))
 
+        if log_channel is None:
+            return
+
         log_embed = nextcord.Embed(
             title="New message",
             description=f"A new message from {message.author.mention} was send to {message.channel.mention}.",
@@ -25,6 +28,9 @@ class Messages(commands.Cog):
     async def on_message_delete(self, message: nextcord.Message) -> None:
         log_channel = self.bot.get_channel(logs.get_log_channel(server_id=message.guild.id))
 
+        if log_channel is None:
+            return
+
         log_embed = nextcord.Embed(
             title="Message was deleted",
             description=f"A message by {message.author.mention} was deleted in {message.channel.mention}.",
@@ -35,6 +41,9 @@ class Messages(commands.Cog):
     @commands.Cog.listener()
     async def on_message_edit(self, before: nextcord.Message, after: nextcord.Message) -> None:
         log_channel = self.bot.get_channel(logs.get_log_channel(server_id=after.guild.id))
+
+        if log_channel is None:
+            return
 
         log_embed = nextcord.Embed(
             title="Message was edited",
