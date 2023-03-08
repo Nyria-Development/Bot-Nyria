@@ -1,7 +1,7 @@
 import nextcord
 from nextcord.ext import commands
 from src.templates import embeds
-from src.permissions import voice
+from src.dictionarys import voice
 
 
 class VoiceCurrentSettings(commands.Cog):

@@ -1,6 +1,6 @@
 import nextcord
 from nextcord.ext import commands
-from src.permissions import voice
+from src.dictionarys import voice
 
 
 class VoiceLimit(commands.Cog):
