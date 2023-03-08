@@ -1,6 +1,6 @@
 import nextcord
 from nextcord.ext import commands
-from src.dictionarys import logs
+from src.dictionaries import logs
 
 
 class SetLogChannel(commands.Cog):
