@@ -42,7 +42,7 @@ class Messages(commands.Cog):
             color=nextcord.Color.blue()
         )
         log_embed.add_field(name="Channel", value=message.channel)
-        log_embed.add_field(name="New Message", value=message.content)
+        log_embed.add_field(name="Message delete", value=message.content)
         await log_channel.send(embed=log_embed)
 
     @commands.Cog.listener()
