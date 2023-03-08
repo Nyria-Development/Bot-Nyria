@@ -28,6 +28,12 @@ async def set_log_channel(server_id: int, channel_id: int) -> None:
     __logs_settings[server_id] = channel_id
 
 
+def get_log_channel(server_id: int):
+    if server_id not in __logs_settings:
+        return
+    return __logs_settings[server_id]
+
+
 async def load_log_channels() -> print:
     data = query.execute(
         query="SELECT * FROM logs",
