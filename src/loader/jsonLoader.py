@@ -61,3 +61,13 @@ class Metrio:
         return self.__config
 
 
+class Leveling:
+    def __init__(self):
+        with open("resources/information/leveling.json", "r") as c:
+            self.file = c
+            self.__config = json.load(c)
+
+    def get_levels(self):
+        return self.__config
+
+

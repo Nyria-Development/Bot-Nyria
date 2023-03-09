@@ -1,6 +1,7 @@
 import nextcord
 from nextcord.ext import commands
 from src.loader.jsonLoader import Metrio
+from bot.metrio.leveling.commands import experience
 
 
 class Messages(commands.Cog):
@@ -10,6 +11,7 @@ class Messages(commands.Cog):
     @commands.Cog.listener()
     async def on_message(self, message: nextcord.Message):
         if not message.author.bot:
+            await experience.experience().add_new_exp(message)
             print(message.content)
             for guild in Metrio().get_guilds():
                 if guild['log_channel_id'] == message.guild.id:
