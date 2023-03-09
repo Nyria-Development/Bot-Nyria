@@ -12,7 +12,7 @@ class VoiceSetup(commands.Cog):
         force_global=True,
         default_member_permissions=8
     )
-    async def setup_voice(self, ctx: nextcord.Interaction):
+    async def setup_voice(self, ctx: nextcord.Interaction) -> None:
         category = nextcord.utils.get(ctx.guild.categories, name="--- Nyria Voice ---")
 
         if category is None:
