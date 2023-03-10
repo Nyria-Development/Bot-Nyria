@@ -70,6 +70,7 @@ class Leveling:
     def get_levels(self):
         return self.__config
 
+
 class Commands:
     def __init__(self):
         with open("resources/config/commands.json", "r") as c:
