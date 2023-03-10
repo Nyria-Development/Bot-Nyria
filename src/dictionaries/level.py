@@ -41,6 +41,7 @@ def get_leveling_server(server_id: int):
         return False
     return __level_settings[server_id]
 
+
 async def load_leveling_servers() -> print:
     data = query.execute(
         query="SELECT * FROM leveling",
