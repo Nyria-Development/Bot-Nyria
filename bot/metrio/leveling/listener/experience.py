@@ -9,6 +9,7 @@ class Experience(commands.Cog):
     def __init__(self):
         self.bot = 1
         # TODO Muss das in die Bot listener oder wäre es nicht Außerhalb besser? (Schreib mir dann nochmal)
+        # TODO Safe data in Dictionary and database
 
     @staticmethod
     async def add_new_exp(
