@@ -67,6 +67,61 @@
     ]
   },
   {
+    "categoryName": "Kanio",
+    "categoryDiscription": "for the community",
+    "categoryID": 0,
+    "functions": [
+      {
+        "functionName": "ticket",
+        "functionDiscription": "Create a ticket",
+        "functionID": 0,
+        "commands": [
+          {
+            "commandName": "ticketAddUser",
+            "commandDiscription": "Add User to Ticket.",
+            "commandID": 0,
+            "command": "/kanio-ticket-add-user",
+            "parameters": [
+              {
+                "parameterName": "ticket",
+                "parameterID": 0,
+                "type": "nextcord.channel",
+                "requierd": true
+              },
+              {
+                "parameterName": "user",
+                "parameterID": 1,
+                "type": "nextcord.user",
+                "requierd": true
+              }
+            ]
+          },
+          {
+            "commandName": "ticketClose",
+            "commandDiscription": "Close a Ticket.",
+            "commandID": 0,
+            "command": "/kanio-ticket-close",
+            "parameters": []
+          },
+          {
+            "commandName": "ticketCreate",
+            "commandDiscription": "Create a Ticket.",
+            "commandID": 0,
+            "command": "/kanio-ticket",
+            "parameters": []
+          },
+          {
+            "commandName": "ticketRemoveUser",
+            "commandDiscription": "Remove a User from a Ticket.",
+            "commandID": 0,
+            "command": "/kanio-ticket-remove-user",
+            "parameters": []
+          }
+        ]
+      }
+    ]
+  },
+  {
     "categoryName": "metrio",
     "categoryDiscription": "zum Spielen",
     "categoryID": 1,

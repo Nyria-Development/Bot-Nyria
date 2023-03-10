@@ -15,7 +15,7 @@ class helpButton(nextcord.ui.View):
     @nextcord.ui.button(label="Home", emoji="🏠", style=nextcord.ButtonStyle.grey)
     async def homeBt(self, button: nextcord.ui.Button, interaction: nextcord.Interaction):
         self.depth.clear()
-        self.buttons_required = 2
+        self.buttons_required = 3 # 3: Number of set groups (diasio, kanio, metrio, etc) in commands.json
         self.getButtonLabel()
         await interaction.message.edit(embed=self.setEmbed(), view=self)
 
@@ -121,7 +121,7 @@ class CommandList(commands.Cog):
                                     description=f"list of all commands. Pls Select:",
                                     color=0x081e8c)
         help_embed.set_footer(text="Home")
-        await ctx.response.send_message(embed=help_embed, view=helpButton(2, []))
+        await ctx.response.send_message(embed=help_embed, view=helpButton(3, []))# 3: Number of set groups (diasio, kanio, metrio, etc) in commands.json
 
 
 def setup(bot):
