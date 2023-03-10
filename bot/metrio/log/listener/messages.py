@@ -1,7 +1,7 @@
 import nextcord
 from nextcord.ext import commands
 from src.loader.jsonLoader import Metrio
-from bot.metrio.leveling.commands import experience
+from bot.metrio.leveling.listener import experience
 
 
 class Messages(commands.Cog):
