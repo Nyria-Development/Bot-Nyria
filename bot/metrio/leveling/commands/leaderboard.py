@@ -18,10 +18,13 @@ class levelLeaderboard(commands.Cog):
         new_user_list = sorted(user_list, key=lambda d: d['xp'], reverse=True)
 
         level_embed = nextcord.Embed(title="LeaderBoard",
-                           description=f"Leaderboard mit den 10 besten Usern",
+                           description=f"Leaderboard of the 10 highranked Users",
                            color=0x081e8c)
-        for user in new_user_list:
-            level_embed.add_field(name=user['discordUser'], value=f"Level: {user['level']}, XP: {user['xp']}")
+        for i, user in enumerate(new_user_list):
+            if i < 10:
+                level_embed.add_field(name=f"{i+1} - {user['discordUser']}", value=f"Level: {user['level']}, XP: {user['xp']}")
+            else:
+                break
         await ctx.send(embed=level_embed, ephemeral=False)
 
 

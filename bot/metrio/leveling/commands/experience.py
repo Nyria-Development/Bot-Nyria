@@ -7,13 +7,14 @@ from src.loader import jsonLoader
 class experience(commands.Cog):
     def __init__(self):
         self.bot = 1
+        self.xp_speed = 1 #can be changed by every Guild
 
     async def add_new_exp(self, message):
         user_list = jsonLoader.Leveling().get_levels()
         if any(user['discordUserID'] == message.author.id for user in user_list):
             for user in user_list:
                 if user['discordUserID'] == message.author.id:
-                    user['xp'] += 1
+                    user['xp'] += self.xp_speed
                     if user['xp'] > pow(2, user['level']):
                         user['level'] += 1
                         await message.channel.send(f"{message.author.mention} You just leveld up to Level {user['level']}")
