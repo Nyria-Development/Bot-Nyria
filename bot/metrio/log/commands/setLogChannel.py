@@ -15,7 +15,7 @@ class SetLogChannel(commands.Cog):
     )
     async def set_log_channel(self, ctx: nextcord.Interaction, channel: nextcord.TextChannel):
         await logs.set_log_channel(server_id=ctx.guild.id, channel_id=channel.id)
-        await ctx.send(f"Log channel set to: {channel}", ephemeral=True)
+        await ctx.send(f"Log channel set to: {channel.mention}", ephemeral=True)
 
 
 def setup(bot):

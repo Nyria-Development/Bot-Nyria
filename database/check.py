@@ -41,6 +41,8 @@ class Check:
 
         cursor.execute("CREATE TABLE bug_reports (userId BIGINT NOT NULL, reports INT NOT NULL)")
         cursor.execute("CREATE TABLE music (serverId BIGINT NOT NULL, tracksId INT NOT NULL, trackName TEXT NOT NULL)")
+        cursor.execute("CREATE TABLE leveling (serverId BIGINT NOT NULL, levelSpeed INT NOT NULL)")
+        cursor.execute("CREATE TABLE logs (serverId BIGINT NOT NULL, channelId BIGINT NOT NULL)")
 
         connection.commit()
         connection.close()
