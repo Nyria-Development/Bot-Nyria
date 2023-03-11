@@ -1,6 +1,5 @@
 nextcord
 mysql-connector-python
 deep_translator
-wavelink
 google-api-python-client
 mcstatus
