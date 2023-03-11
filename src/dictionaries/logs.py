@@ -12,10 +12,7 @@ async def config_log_settings(server_id: int, log_channel_id, log, message_log, 
         query="SELECT * FROM logs WHERE serverId=%s",
         data=[int(server_id)]
     )
-    if log == "activate":
-        log = 1
-    else:
-        log = 0
+    log = 1 if log == "on" else 0
     if not data:
         query.execute(
             query=f"INSERT INTO logs (server_id, channelId, log_active, on_message, on_reaction, on_member_event) VALUE (%s,%s,%s,%s,%s,%s)",
@@ -24,7 +21,7 @@ async def config_log_settings(server_id: int, log_channel_id, log, message_log, 
         __logs_settings[server_id] = [log_channel_id, log, message_log, reaction_log, on_member_log]
         return
     query.execute(
-        query=f"UPDATE logs SET channelId={log_channel_id}, on_message={message_log}, on_reaction={reaction_log}, on_member_event={on_member_log} WHERE serverId=%s",
+        query=f"UPDATE logs SET channelId={log_channel_id}, log_active={log}, on_message={message_log}, on_reaction={reaction_log}, on_member_event={on_member_log} WHERE serverId=%s",
         data=[int(server_id)]
     )
     __logs_settings[server_id] = [log_channel_id, log, message_log, reaction_log, on_member_log]
@@ -32,8 +29,14 @@ async def config_log_settings(server_id: int, log_channel_id, log, message_log, 
 
 def get_log_channel(server_id: int):
     if server_id not in __logs_settings:
-        return
+        return 0
     return __logs_settings[server_id][0]
+
+
+def get_log_on_state(server_id: int, on_event: int):
+    if server_id not in __logs_settings:
+        return
+    return __logs_settings[server_id][on_event]
 
 
 async def load_log_channels() -> print:
