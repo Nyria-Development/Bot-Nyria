@@ -30,9 +30,9 @@ class ConfigLog(commands.Cog):
         log_config_embed.add_field(name="log is:", value=log)
         if log == "on":
             log_config_embed.add_field(name="Log Channel: ", value=log_channel.mention)
-            log_config_embed.add_field(name="Message Log: ", value=message_log)
-            log_config_embed.add_field(name="Reaction Log: ", value=reaction_log)
-            log_config_embed.add_field(name="On Member Events Log: ", value=on_member_log)
+            log_config_embed.add_field(name="Message Log: ", value=("on" if logs.get_log_on_state(ctx.guild_id, 2) == 1 else "off"))
+            log_config_embed.add_field(name="Reaction Log: ", value=("on" if logs.get_log_on_state(ctx.guild_id, 3) == 1 else "off"))
+            log_config_embed.add_field(name="On Member Events Log: ", value=("on" if logs.get_log_on_state(ctx.guild_id, 4) == 1 else "off"))
         await ctx.send(embed=log_config_embed, ephemeral=True)
 
 

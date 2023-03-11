@@ -20,9 +20,9 @@ class getConfigLog(commands.Cog):
             if logs.get_log_on_state(ctx.guild_id, 1) == 1:
                 log_channel = await self.bot.fetch_channel(logs.get_log_on_state(ctx.guild_id, 0))
                 log_config_embed.add_field(name="Log Channel: ", value=log_channel.mention)
-                log_config_embed.add_field(name="Message Log: ", value=logs.get_log_on_state(ctx.guild_id, 2))
-                log_config_embed.add_field(name="Reaction Log: ", value=logs.get_log_on_state(ctx.guild_id, 3))
-                log_config_embed.add_field(name="On Member Events Log: ", value=logs.get_log_on_state(ctx.guild_id, 4))
+                log_config_embed.add_field(name="Message Log: ", value=("on" if logs.get_log_on_state(ctx.guild_id, 2) == 1 else "off"))
+                log_config_embed.add_field(name="Reaction Log: ", value=("on" if logs.get_log_on_state(ctx.guild_id, 3) == 1 else "off"))
+                log_config_embed.add_field(name="On Member Events Log: ", value=("on" if logs.get_log_on_state(ctx.guild_id, 4) == 1 else "off"))
         else:
             log_config_embed = nextcord.Embed(title="Log-Config", description="Your Log isnt set up.",
                                               color=0x081e8c)
