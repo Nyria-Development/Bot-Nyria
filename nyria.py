@@ -14,8 +14,7 @@ class Nyria(commands.Bot):
 
         # get all intents
         self.remove_command("help")
-        print("Requirements loaded") #3276799 (all) 3243773(defult)
-        print(self.intents.value)
+        print("Requirements loaded")
 
         # load all cogs
         for root, dirs, files in os.walk("bot"):
