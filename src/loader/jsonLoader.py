@@ -21,6 +21,16 @@ class Tokens:
         return self.__config["social_media"]["youtube"]
 
 
+class Pyrio:
+    def __init__(self):
+        with open("resources/config/pyrio.json", "r") as c:
+            self.__config = json.load(c)
+
+    def get_state(self) -> list:
+        state = self.__config["state"][0]
+        return state
+
+
 class Kanio:
     def __init__(self):
         with open("resources/config/kanio.json", "r") as c:
@@ -49,15 +59,6 @@ class Plirio:
             self.__config = json.load(c)
 
     def credits(self):
-        return self.__config
-
-
-class Metrio:
-    def __init__(self):
-        with open("resources/config/guilds.json", "r") as c:
-            self.__config = json.load(c)
-
-    def get_guilds(self):
         return self.__config
 
 
