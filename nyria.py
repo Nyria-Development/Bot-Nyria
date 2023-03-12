@@ -1,3 +1,4 @@
+import nextcord
 from nextcord.ext import commands
 from src.loader.jsonLoader import Tokens
 import os
@@ -6,13 +7,12 @@ from database.check import Check
 
 class Nyria(commands.Bot):
     def __init__(self):
-        super().__init__()
+        super().__init__(intents=nextcord.Intents.all())
 
         # load config
         self.__token = Tokens().token()
 
         # get all intents
-        self.intents.all()
         self.remove_command("help")
         print("Requirements loaded")
 
