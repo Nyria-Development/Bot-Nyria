@@ -9,7 +9,7 @@
         "discordUser": "meLordlp",
         "discordUserID": 533310542618820609,
         "level": 7,
-        "xp": 90
+        "xp": 91
     },
     {
         "discordUser": "Redtronics",
@@ -22,5 +22,11 @@
         "discordUserID": 1082591113753403432,
         "level": 1,
         "xp": 1
+    },
+    {
+        "discordUser": "meLordlp2",
+        "discordUserID": 708698257420714004,
+        "level": 3,
+        "xp": 6
     }
 ]
