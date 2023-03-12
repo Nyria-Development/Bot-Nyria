@@ -13,6 +13,9 @@ async def config_log_settings(server_id: int, log_channel_id, log, message_log, 
         data=[int(server_id)]
     )
     log = 1 if log == "on" else 0
+    message_log = 1 if message_log == "on" else 0
+    reaction_log = 1 if reaction_log == "on" else 0
+    on_member_log = 1 if on_member_log == "on" else 0
     if not data:
         query.execute(
             query="INSERT INTO logs (serverId, channelId, log_active, on_message, on_reaction, on_member_event) VALUE (%s,%s,%s,%s,%s,%s)",

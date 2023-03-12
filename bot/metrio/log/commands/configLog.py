@@ -16,15 +16,9 @@ class ConfigLog(commands.Cog):
     async def config_log_settings(self, ctx: nextcord.Interaction,
                                   log_channel: nextcord.TextChannel,
                                   log: str = nextcord.SlashOption(choices=["on", "off"]),
-                                  message_log: int = nextcord.SlashOption(choices=[1, 0], required=False),
-                                  reaction_log: int = nextcord.SlashOption(choices=[1, 0], required=False),
-                                  on_member_log: int = nextcord.SlashOption(choices=[1, 0], required=False)):
-        if not message_log and message_log != 0:
-            message_log = logs.get_log_on_state(ctx.guild_id, 2)
-        if not reaction_log and reaction_log != 0:
-            reaction_log = logs.get_log_on_state(ctx.guild_id, 3)
-        if not on_member_log and on_member_log != 0:
-            on_member_log = logs.get_log_on_state(ctx.guild_id, 4)
+                                  message_log: str = nextcord.SlashOption(choices=["on", "off"], required=False),
+                                  reaction_log: str = nextcord.SlashOption(choices=["on", "off"], required=False),
+                                  on_member_log: str = nextcord.SlashOption(choices=["on", "off"], required=False)):
         await logs.config_log_settings(server_id=ctx.guild.id, log_channel_id=log_channel.id, log=log, message_log=message_log, reaction_log=reaction_log, on_member_log=on_member_log)
         log_config_embed = nextcord.Embed(title="Log-Config", description="Your Log settings where updated", color=0x081e8c)
         log_config_embed.add_field(name="log is:", value=log)
