@@ -42,6 +42,12 @@ class Dropdown(nextcord.ui.Select):
                                         color=0x081e8c)
             help_embed.add_field(name="Command Name:", value=[command['command_name'] for command in self.command_list if command['command_name'] == self.depth][0])
             help_embed.add_field(name="Command Description:", value=[command['description'] for command in self.command_list if command['command_name'] == self.depth][0])
+            parameters = [command['options'] for command in self.command_list if command['command_name'] == self.depth][0]
+            parameter_list = []
+            if parameters:
+                for parameter in parameters:
+                    parameter_list.append(parameter)
+                help_embed.add_field(name="Parameters:", value=', '.join(parameter_list))
         help_embed.set_footer(text=self.depth)
         return help_embed
 
@@ -55,7 +61,7 @@ class CommandList(commands.Cog):
     def __init__(self, bot: commands.Bot):
         self.bot = bot
 
-    @nextcord.slash_command(name="metrio-list-commands", description="List of all commands. Seconde Function",
+    @nextcord.slash_command(name="pyrio-list-commands", description="List of all commands. Seconde Function",
                             force_global=True)
     async def command_list(self, ctx: nextcord.Interaction):
         command_list = self.load_command_list()
