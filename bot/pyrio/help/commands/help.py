@@ -1,127 +1,80 @@
 import nextcord
 from nextcord.ext import commands
-from src.loader import jsonLoader
 
 
-class helpButton(nextcord.ui.View):
-    def __init__(self, buttons_required, depth):
-        super().__init__()
+class Dropdown(nextcord.ui.Select):
+    def __init__(self, command_list, list_of_modules, depth):
+        self.command_list = command_list
+        self.list_of_modules = list_of_modules
         self.depth = depth
-        self.buttons_required = buttons_required
-        self.nameList = ["category", "function", "command", "parameter"]
-        self.button_list = [self.bt1, self.bt2, self.bt3, self.bt4, self.bt5]
-        self.getButtonLabel()
-
-    @nextcord.ui.button(label="Home", emoji="🏠", style=nextcord.ButtonStyle.grey)
-    async def homeBt(self, button: nextcord.ui.Button, interaction: nextcord.Interaction):
-        self.depth.clear()
-        self.buttons_required = 3 # 3: Number of set groups (diasio, kanio, metrio, etc) in commands.json
-        self.getButtonLabel()
-        await interaction.message.edit(embed=self.setEmbed(), view=self)
-
-    @nextcord.ui.button(label="diasio", style=nextcord.ButtonStyle.green)
-    async def bt1(self, button: nextcord.ui.Button, interaction: nextcord.Interaction):
-        self.depth.append(0)
-        self.buttons_required = self.getButtonRequiered()
-        self.getButtonLabel()
-        await interaction.message.edit(embed=self.setEmbed(), view=self)
-
-    @nextcord.ui.button(label="kanio", style=nextcord.ButtonStyle.green)
-    async def bt2(self, button: nextcord.ui.Button, interaction: nextcord.Interaction):
-        self.depth.append(1)
-        self.buttons_required = self.getButtonRequiered()
-        self.getButtonLabel()
-        await interaction.message.edit(embed=self.setEmbed(), view=self)
-
-    @nextcord.ui.button(label="matrio", style=nextcord.ButtonStyle.green)
-    async def bt3(self, button: nextcord.ui.Button, interaction: nextcord.Interaction):
-        self.depth.append(2)
-        self.buttons_required = self.getButtonRequiered()
-        self.getButtonLabel()
-        await interaction.message.edit(embed=self.setEmbed(), view=self)
-
-    @nextcord.ui.button(label="plirio", style=nextcord.ButtonStyle.green)
-    async def bt4(self, button: nextcord.ui.Button, interaction: nextcord.Interaction):
-        self.depth.append(3)
-        self.buttons_required = self.getButtonRequiered()
-        self.getButtonLabel()
-        await interaction.message.edit(embed=self.setEmbed(), view=self)
-
-    @nextcord.ui.button(label="pyrio", style=nextcord.ButtonStyle.green)
-    async def bt5(self, button: nextcord.ui.Button, interaction: nextcord.Interaction):
-        self.depth.append(4)
-        self.buttons_required = self.getButtonRequiered()
-        self.getButtonLabel()
-        await interaction.message.edit(embed=self.setEmbed(), view=self)
-
-    def getButtonLabel(self):
-        for i, button in enumerate(self.button_list):
-            if i < self.buttons_required:
-                button.label = self.getLabel(i)
-                button.disabled = False
-            else:
-                button.disabled = True
-
-    def getSubList(self, commandList):
-        subList = commandList[self.depth[0]]
-        for i, number in enumerate(self.depth):
-            if i > 0:
-                subList = subList[f"{self.nameList[i]}s"][number]
-        return subList
-
-    def getLabel(self, button_id: int):
-        commandList = jsonLoader.Commands().get_commands()
-        if not self.depth:
-            return f"{str(commandList[button_id]['categoryName'])}"
+        options = [nextcord.SelectOption(label="Home")]
+        if self.depth == "modules":
+            for option in self.list_of_modules:
+                options.append(nextcord.SelectOption(label=option))
+        elif any(module == self.depth for module in self.list_of_modules):
+            for command in self.command_list:
+                if command['module'] == depth:
+                    options.append(nextcord.SelectOption(label=command['command_name']))
         else:
-            sub_list = self.getSubList(commandList)
-            return sub_list[f"{self.nameList[len(self.depth)]}s"][button_id][
-                f"{self.nameList[len(self.depth)]}Name"]
+            options.append(nextcord.SelectOption(label=str([command['module'] for command in self.command_list if command['command_name'] == self.depth][0])))
+        super().__init__(placeholder=self.depth, min_values=1, max_values=1, options=options)
 
-    def getButtonRequiered(self):
-        commandList = jsonLoader.Commands().get_commands()
-        sub_list = self.getSubList(commandList)
-        if len(self.depth) < 3:
-            return len(sub_list[f"{self.nameList[len(self.depth) - 0]}s"])
+    async def callback(self, interaction: nextcord.Interaction):
+        self.depth = str(self.values[0])
+        if self.depth == "Home":
+            await interaction.edit(embed=self.get_embed(), view=DropdownView(self.command_list, self.list_of_modules, "modules"))
         else:
-            return 0
+            await interaction.edit(embed=self.get_embed(), view=DropdownView(self.command_list, self.list_of_modules, self.depth))
 
-    def setEmbed(self):
-        if self.depth:
-            commandList = jsonLoader.Commands().get_commands()
-            sub_list = self.getSubList(commandList)
-            command_name = sub_list[f"{self.nameList[len(self.depth) - 1]}Name"]
-            command_discription = sub_list[f"{self.nameList[len(self.depth) - 1]}Discription"]
-            help_embed = nextcord.Embed(title=f"Help for: {command_name}",
-                                        description=f"{command_name}: {command_discription}",
+
+    def get_embed(self):
+        if any(module == self.depth for module in self.list_of_modules):
+            help_embed = nextcord.Embed(title=f"Command List: {self.depth}",
+                                        description=f"List of all commands in {self.depth}. Please select a command for more information:",
                                         color=0x081e8c)
-            help_embed.add_field(name="Name", value=command_name)
-            help_embed.add_field(name="Discription", value=command_discription)
-            if len(self.depth) < 3:
-                help_embed.add_field(name=f"Find out more about {self.nameList[len(self.depth)]}s in {command_name}", value="with a CLick on the Buttons", inline=False)
-            if self.nameList[len(self.depth) - 1] == "command":
-                help_embed.add_field(name=f"Command:",
-                                     value=sub_list[self.nameList[len(self.depth) - 1]], inline=False)
-            help_embed.set_footer(text=self.nameList[len(self.depth) - 1])
-        else:
-            help_embed = nextcord.Embed(title="Command List",
-                                        description=f"list of all commands. Pls Select:",
+        elif self.depth == "Home":
+            help_embed = nextcord.Embed(title=f"Command List",
+                                        description=f"Please select a Module for more information:",
                                         color=0x081e8c)
-            help_embed.set_footer(text="Home")
+        else:
+            help_embed = nextcord.Embed(title=f"Command Info: {self.depth}",
+                                        description=f"Information to {self.depth}:",
+                                        color=0x081e8c)
+            help_embed.add_field(name="Command Name:", value=[command['command_name'] for command in self.command_list if command['command_name'] == self.depth][0])
+            help_embed.add_field(name="Command Description:", value=[command['description'] for command in self.command_list if command['command_name'] == self.depth][0])
+        help_embed.set_footer(text=self.depth)
         return help_embed
+
+class DropdownView(nextcord.ui.View):
+    def __init__(self, command_list, list_of_modules, depth):
+        super().__init__()
+        self.add_item(Dropdown(command_list, list_of_modules, depth))
 
 
 class CommandList(commands.Cog):
     def __init__(self, bot: commands.Bot):
         self.bot = bot
 
-    @nextcord.slash_command(name="metrio-list-commands", description="List of all commands", force_global=True)
-    async def test(self, ctx: nextcord.Interaction):
+    @nextcord.slash_command(name="metrio-list-commands", description="List of all commands. Seconde Function",
+                            force_global=True)
+    async def command_list(self, ctx: nextcord.Interaction):
+        command_list = self.load_command_list()
+        list_of_modules = list({command['module']: command['module'] for command in command_list}.values())
         help_embed = nextcord.Embed(title="Command List",
                                     description=f"list of all commands. Pls Select:",
                                     color=0x081e8c)
         help_embed.set_footer(text="Home")
-        await ctx.response.send_message(embed=help_embed, view=helpButton(3, []))# 3: Number of set groups (diasio, kanio, metrio, etc) in commands.json
+        view = DropdownView(command_list, list_of_modules, "modules")
+        await ctx.response.send_message(embed=help_embed, view=view, ephemeral=True)
+
+    def load_command_list(self):
+        command_list_loader = self.bot.get_all_application_commands()
+        command_list = []
+        for command in command_list_loader:
+            new_command = {"module": command.name.split("-")[0], "command_name": command.name,
+                           "description": command.description, "options": command.options}
+            command_list.append(new_command)
+        return sorted(command_list, key=lambda d: d['module'])
 
 
 def setup(bot):
