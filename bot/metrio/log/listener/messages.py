@@ -24,7 +24,7 @@ class Messages(commands.Cog):
     @commands.Cog.listener()
     async def on_message_delete(self, message: nextcord.Message) -> None:
         print(message.content)
-        log_channel = self.bot.get_channel(1082632691196903424)
+        log_channel = self.bot.get_channel(logs.get_log_channel(message.guild.id))
         log_embed = nextcord.Embed(title="Message was deleted",
                                    description=f"A message by {message.author.mention} was deleted in {message.channel.mention}.",
                                    color=0x081e8c)
@@ -35,7 +35,7 @@ class Messages(commands.Cog):
     @commands.Cog.listener()
     async def on_message_edit(self, before: nextcord.Message, after) -> None:
         print(before.content, after.content)
-        log_channel = self.bot.get_channel(1082632691196903424)
+        log_channel = self.bot.get_channel(logs.get_log_channel(after.guild.id))
         log_embed = nextcord.Embed(title="Message was edited",
                                    description=f"A message from {before.author.mention} was edited in {before.channel.mention}.",
                                    color=0x081e8c)
