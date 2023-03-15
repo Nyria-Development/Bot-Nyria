@@ -43,6 +43,9 @@ class Experience(commands.Cog):
                 user['xp'] += level.get_leveling_server(message.guild.id)
                 if user['xp'] > pow(2, user['level']):
                     user['level'] += 1
+                    for role in jsonLoader.LevelRoles().get_Roles()[str(message.guild.id)]:
+                        if int(user['level']) >= int(role['level']):
+                            await message.author.add_roles(message.guild.get_role(role['roleID']))
                     await message.channel.send(
                               f"{message.author.mention} You just leveled up to Level {user['level']}")
                 with open("resources/information/leveling.json", "w") as file:

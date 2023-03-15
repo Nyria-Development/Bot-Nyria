@@ -71,6 +71,15 @@ class Leveling:
     def get_levels(self):
         return self.__config
 
+class LevelRoles:
+    def __init__(self):
+        with open("resources/information/levelRoles.json", "r") as c:
+            self.file = c
+            self.__config = json.load(c)
+
+    def get_Roles(self):
+        return self.__config
+
 
 class Commands:
     def __init__(self):
