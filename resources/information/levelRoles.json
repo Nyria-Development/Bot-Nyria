@@ -4,6 +4,11 @@
             "roleID": 1085549448396017714,
             "name": "test-test",
             "level": 10
+        },
+        {
+            "roleID": 1085565733423026266,
+            "name": "level5",
+            "level": 5
         }
     ]
 }
