@@ -47,9 +47,9 @@ class removeLevelRole(commands.Cog):
     )
     async def remove_role(self, ctx: nextcord.Interaction):
         delete_role_embed = nextcord.Embed(title=f"Remove a Role",
-                                        description=f"Please select a role, that should be deleted")
+                                           description=f"Please select a role, that should be deleted")
         view=DropdownView(ctx)
-        await ctx.send(embed=delete_role_embed, view=view)
+        await ctx.send(embed=delete_role_embed, view=view, ephemeral=True)
 
 
 
