@@ -7,7 +7,7 @@ class Dropdown(nextcord.ui.Select):
     def __init__(self, ctx: nextcord.Interaction):
         options = []
         for role in LevelRoles().get_Roles()[str(ctx.guild.id)]:
-            options.append(nextcord.SelectOption(label=role['name']))
+            options.append(nextcord.SelectOption(label=role['name'], description=f"Level: {role['level']}"))
         super().__init__(placeholder="Level Roles", min_values=1, max_values=1, options=options)
 
     async def callback(self, ctx: nextcord.Interaction):
