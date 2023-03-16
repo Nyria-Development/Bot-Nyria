@@ -20,9 +20,10 @@ class UserStats(commands.Cog):
             description="Information | Plirio",
             color=nextcord.Color.orange()
         )
+        embed_user.add_field(name="User", value=user.mention)
         embed_user.add_field(name="Name", value=user.name)
         embed_user.add_field(name="Status", value=user.status)
-        embed_user.add_field(name="Roles", value=user.roles)
+        embed_user.add_field(name="Roles", value=", ".join([role.mention for role in user.roles]))
 
         await ctx.send(embed=embed_user, ephemeral=True)
 
