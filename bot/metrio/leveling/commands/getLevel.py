@@ -20,7 +20,7 @@ class GetLevel(commands.Cog):
             self,
             ctx: nextcord.Interaction,
             discord_user: nextcord.Member = nextcord.SlashOption(required=False)
-    ) -> PartialInteractionMessage | WebhookMessage:
+    ):
 
         """
         Attributes
@@ -34,7 +34,7 @@ class GetLevel(commands.Cog):
         if not discord_user:
             discord_user = ctx.user
 
-        user_list = sorted(Leveling().get_levels(), key=lambda d: d['xp'], reverse=True)
+        user_list = sorted(Leveling().get_levels(ctx.guild_id), key=lambda d: d['xp'], reverse=True)
 
         if not any(user['discordUserID'] == discord_user.id for user in user_list):
             return await ctx.send(f"The User {discord_user.mention} does not have any XP yet.", ephemeral=True)

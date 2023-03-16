@@ -1,4 +1,7 @@
+import json
+
 from database.query import Query
+from src.loader.jsonLoader import Leveling
 
 query = Query(
     pool_name="level_setting",
@@ -18,6 +21,10 @@ async def set_leveling(server_id: int, leveling_setting, leveling_speed) -> None
                 "INSERT INTO leveling (serverId, levelSpeed) VALUE (%s,%s)",
                 data=[int(server_id), int(leveling_speed)]
             )
+            leveling_dict = Leveling().get_levels(server_id)
+            leveling_dict.update({f"{server_id}": []})
+            with open("resources/information/leveling.json", "w") as file:
+                json.dump(leveling_dict, file, indent=4)
             __level_settings[server_id] = leveling_speed
         else:
             query.execute(

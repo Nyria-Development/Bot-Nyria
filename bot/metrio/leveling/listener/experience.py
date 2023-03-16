@@ -27,7 +27,7 @@ class Experience(commands.Cog):
         if not level.get_leveling_server(message.guild.id):
             return print(level.get_leveling_server(message.guild.id))
 
-        user_list = jsonLoader.Leveling().get_levels()
+        user_list = jsonLoader.Leveling().get_levels(message.guild.id)
 
         if not any(user['discordUserID'] == message.author.id for user in user_list):
             new_user = {"discordUser": message.author.name, "discordUserID": message.author.id, "level": 1, "xp": 1}

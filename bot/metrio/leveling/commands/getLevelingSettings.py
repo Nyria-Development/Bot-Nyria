@@ -17,7 +17,7 @@ class GetLeveling(commands.Cog):
     async def get_leveling(
             self,
             ctx: nextcord.Interaction
-    ) -> PartialInteractionMessage | WebhookMessage:
+    ):
 
         leveling_status = level.get_leveling_server(ctx.guild_id)
 
