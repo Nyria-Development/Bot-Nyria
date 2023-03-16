@@ -24,6 +24,7 @@ class UserStats(commands.Cog):
         embed_user.add_field(name="Name", value=user.name)
         embed_user.add_field(name="Status", value=user.status)
         embed_user.add_field(name="Roles", value=", ".join([role.mention for role in user.roles]))
+        embed_user.set_thumbnail(user.display_avatar)
 
         await ctx.send(embed=embed_user, ephemeral=True)
 
