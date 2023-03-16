@@ -27,18 +27,18 @@ class Experience(commands.Cog):
         if not level.get_leveling_server(message.guild.id):
             return print(level.get_leveling_server(message.guild.id))
 
-        user_list = jsonLoader.Leveling().get_levels(message.guild.id)
+        user_list = jsonLoader.Leveling().get_levels()
 
-        if not any(user['discordUserID'] == message.author.id for user in user_list):
+        if not any(user['discordUserID'] == message.author.id for user in user_list[str(message.guild.id)]):
             new_user = {"discordUser": message.author.name, "discordUserID": message.author.id, "level": 1, "xp": 1}
-            user_list.append(new_user)
+            user_list[str(message.guild.id)].append(new_user)
 
             await message.channel.send(f"{message.author.mention}, You made your first XP!")
             with open("resources/information/leveling.json", "w") as file:
                 json.dump(user_list, file, indent=4)
                 return
 
-        for user in user_list:
+        for user in user_list[str(message.guild.id)]:
             if user['discordUserID'] == message.author.id:
                 user['xp'] += level.get_leveling_server(message.guild.id)
                 if user['xp'] > pow(2, user['level']):

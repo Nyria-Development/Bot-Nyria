@@ -19,31 +19,36 @@ class Messages(commands.Cog):
                                            color=0x081e8c)
                 if message.content:
                     log_embed.add_field(name="Content", value=message.content)
+                if message.attachments:
+                    log_embed.add_field(name="Attachments:", value=message.attachments)
                 await log_channel.send(embed=log_embed)
 
     @commands.Cog.listener()
     async def on_message_delete(self, message: nextcord.Message) -> None:
-        print(message.content)
-        log_channel = self.bot.get_channel(logs.get_log_channel(message.guild.id))
-        log_embed = nextcord.Embed(title="Message was deleted",
-                                   description=f"A message by {message.author.mention} was deleted in {message.channel.mention}.",
-                                   color=0x081e8c)
-        if message.content:
-            log_embed.add_field(name="Content", value=message.content)
-        await log_channel.send(embed=log_embed)
+        if not message.author.bot:
+            if logs.get_log_on_state(message.guild.id, 1) == 1 and logs.get_log_on_state(message.guild.id, 2) == 1:
+                log_channel = self.bot.get_channel(logs.get_log_channel(message.guild.id))
+                log_embed = nextcord.Embed(title="Message was deleted",
+                                           description=f"A message by {message.author.mention} was deleted in {message.channel.mention}.",
+                                           color=0x081e8c)
+                if message.content:
+                    log_embed.add_field(name="Content", value=message.content)
+                if message.attachments:
+                    log_embed.add_field(name="Attachments:", value=message.attachments)
+                await log_channel.send(embed=log_embed)
 
     @commands.Cog.listener()
     async def on_message_edit(self, before: nextcord.Message, after) -> None:
-        print(before.content, after.content)
-        log_channel = self.bot.get_channel(logs.get_log_channel(after.guild.id))
-        log_embed = nextcord.Embed(title="Message was edited",
-                                   description=f"A message from {before.author.mention} was edited in {before.channel.mention}.",
-                                   color=0x081e8c)
-        if before.content:
-            log_embed.add_field(name="befor Content", value=before.content)
-        if after.content:
-            log_embed.add_field(name="after Content", value=after.content)
-        await log_channel.send(embed=log_embed)
+        if logs.get_log_on_state(after.guild.id, 1) == 1 and logs.get_log_on_state(after.guild.id, 2) == 1:
+            log_channel = self.bot.get_channel(logs.get_log_channel(after.guild.id))
+            log_embed = nextcord.Embed(title="Message was edited",
+                                       description=f"A message from {before.author.mention} was edited in {before.channel.mention}.",
+                                       color=0x081e8c)
+            if before.content:
+                log_embed.add_field(name="befor Content", value=before.content)
+            if after.content:
+                log_embed.add_field(name="after Content", value=after.content)
+            await log_channel.send(embed=log_embed)
 
 
 def setup(bot):

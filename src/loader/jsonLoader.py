@@ -68,8 +68,8 @@ class Leveling:
             self.file = c
             self.__config = json.load(c)
 
-    def get_levels(self, server_id):
-        return self.__config[str(server_id)]
+    def get_levels(self):
+        return self.__config
 
 class LevelRoles:
     def __init__(self):
