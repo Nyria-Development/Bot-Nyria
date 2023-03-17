@@ -10,8 +10,7 @@ class LevelLeaderboard(commands.Cog):
     @nextcord.slash_command(
         name="metrio-discord-level_leaderboard",
         description="Find the best Users on this Discord",
-        force_global=True,
-        default_member_permissions=8
+        force_global=True
     )
     async def level_leaderboard(
             self,

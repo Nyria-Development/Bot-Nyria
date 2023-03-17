@@ -13,8 +13,7 @@ class GetLevel(commands.Cog):
     @nextcord.slash_command(
         name="metrio-discord-level",
         description="Get the Level of you or someone from DC",
-        force_global=True,
-        default_member_permissions=8
+        force_global=True
     )
     async def get_level(
             self,
