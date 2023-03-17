@@ -26,7 +26,7 @@ class LevelLeaderboard(commands.Cog):
         """
 
         user_list = Leveling().get_levels()
-        new_user_list = sorted(user_list, key=lambda d: d['xp'], reverse=True)
+        new_user_list = sorted(user_list[str(ctx.guild_id)], key=lambda d: d['xp'], reverse=True)
 
         level_embed = nextcord.Embed(
             title="LeaderBoard",

@@ -16,17 +16,22 @@ class createLevelRole(commands.Cog):
         default_member_permissions=8
     )
     async def create_role(self, ctx: nextcord.Interaction, role_name: str, level: int, colour: str = nextcord.SlashOption(choices=list({"white": 0xFFFFFF, "Greyple": 0x99AAb5, "Black": 0x23272A, "DarkButNotBlack": 0x2C2F33, "NotQuiteBlack": 0x23272A, "Blurple": 0x5865F2, "Green": 0x57F287, "Yellow": 0xFEE75C, "Fuchsia": 0xEB459E, "Red": 0xED4245}.keys()))):
-        new_level_role = await ctx.guild.create_role(name=role_name, color=self.colour_dic[colour])
-        new_role_embed = nextcord.Embed(title=f"The Level Role, {new_level_role}, was created",
-                                        description=f"A New Role from Level {level} was created")
-        new_role_embed.add_field(name="Role: ", value=new_level_role.mention)
-        new_role_embed.add_field(name="Level: ", value=level)
-        self.write_into_file(ctx.guild, new_level_role, level)
-        await self.sync_member_level(ctx.guild, new_level_role, level)
-        await ctx.send(embed=new_role_embed)
+        if not any(role['name'] == role_name for role in LevelRoles().get_Roles()[str(ctx.guild_id)]):
+            new_level_role = await ctx.guild.create_role(name=role_name, color=self.colour_dic[colour])
+            new_role_embed = nextcord.Embed(title=f"The Level Role, {new_level_role}, was created",
+                                            description=f"A New Role from Level {level} was created")
+            new_role_embed.add_field(name="Role: ", value=new_level_role.mention)
+            new_role_embed.add_field(name="Level: ", value=level)
+            self.write_into_file(ctx.guild, new_level_role, level)
+            await self.sync_member_level(ctx, ctx.guild, new_level_role, level)
+            await ctx.send(embed=new_role_embed)
+        else:
+            new_role_embed = nextcord.Embed(title=f"A Level Role with the Name {role_name} already",
+                                            description=f"Name already used")
+            await ctx.send(embed=new_role_embed, ephemeral=True)
 
-    async def sync_member_level(self, guild, level_role, level):
-        user_list = sorted(Leveling().get_levels(), key=lambda d: d['xp'], reverse=True)
+    async def sync_member_level(self, ctx, guild, level_role, level):
+        user_list = sorted(Leveling().get_levels()[str(ctx.guild_id)], key=lambda d: d['xp'], reverse=True)
         for user in user_list:
             if user['level'] >= level:
                 discord_user = guild.get_member(user['discordUserID'])
