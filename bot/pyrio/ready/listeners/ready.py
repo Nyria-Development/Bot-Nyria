@@ -1,4 +1,5 @@
 from nextcord.ext import commands
+from src.logger.logger import Logging
 
 
 class Ready(commands.Cog):
@@ -7,7 +8,7 @@ class Ready(commands.Cog):
 
     @commands.Cog.listener()
     async def on_ready(self):
-        print(f"Bot is logged in as: {self.bot.user}")
+        Logging().info(f"Bot is logged in as: {self.bot.user}")
         print("""
             )                      
          ( /(                      

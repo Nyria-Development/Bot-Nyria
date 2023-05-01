@@ -1,6 +1,8 @@
 import nextcord
+from nextcord import PartialInteractionMessage, WebhookMessage
 from nextcord.ext import commands
-from src.dictionaries import voice
+from src.logger.logger import Logging
+from src.settings.voice import permissions
 
 
 class VoiceBan(commands.Cog):
@@ -9,18 +11,42 @@ class VoiceBan(commands.Cog):
 
     @nextcord.slash_command(
         name="kanio-voice-ban",
-        description="Ban any user from your voice channel.",
+        description="Ban any member from your voice.",
         force_global=True
     )
-    async def voice_ban(self, ctx: nextcord.Interaction, voice_channel: nextcord.VoiceChannel, user: nextcord.Member):
-        if not await voice.check_permissions(ctx=ctx, voice=voice_channel):
+    async def voice_ban(
+            self,
+            ctx: nextcord.Interaction,
+            user: nextcord.Member = nextcord.SlashOption(
+                description="The member you want to ban."
+            )
+    ) -> PartialInteractionMessage | WebhookMessage:
+
+        """
+        Attributes
+        ----------
+        :param ctx:
+        :param user:
+        :return: None
+        ----------
+        """
+
+        Logging().info(f"Command :: kanio-voice-ban :: {ctx.guild.name} :: {ctx.user}")
+
+        if not await permissions.check(ctx):
             return await ctx.send("You have no permission to do that.", ephemeral=True)
 
         if ctx.user == user:
-            return await ctx.send("You can't ban yourself.")
+            return await ctx.send("You can't ban yourself.", ephemeral=True)
 
-        await voice_channel.set_permissions(user, view_channel=False)
-        await ctx.send(f"You have banned {user} from the channel.", ephemeral=True)
+        if user.voice is not None and ctx.user.voice == user.voice:
+            await user.disconnect()
+
+        await ctx.user.voice.channel.set_permissions(
+            target=user,
+            view_channel=False
+        )
+        await ctx.send(f"You have banned the user {user} from your voice.", ephemeral=True)
 
 
 def setup(bot):

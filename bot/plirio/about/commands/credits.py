@@ -1,7 +1,8 @@
 import nextcord
 from nextcord.ext import commands
-from src.templates import embeds
-from src.loader.jsonLoader import Plirio
+from src.loader.credits import GetCredits
+from src.logger.logger import Logging
+from src.templates.embeds.ctxEmbed import CtxEmbed
 
 
 class Credits(commands.Cog):
@@ -13,15 +14,48 @@ class Credits(commands.Cog):
         description="Thanks for your support!",
         force_global=True
     )
-    async def credits(self, ctx: nextcord.Interaction):
-        config = Plirio().credits()
-        embed_credits = embeds.TemplateEmbed(
+    async def credits(
+            self,
+            ctx: nextcord.Interaction
+    ) -> None:
+
+        """
+        Attributes
+        ----------
+        :param ctx:
+        :return: None
+        ----------
+        """
+
+        Logging().info(f"Command :: plirio-credits :: {ctx.guild.name} :: {ctx.user}")
+
+        config = GetCredits().get_credits()
+        embed_credits = CtxEmbed(
             bot=self.bot,
             ctx=ctx,
             description="Information | Plirio",
             color=nextcord.Color.orange()
         )
-        embed_credits.add_field(name="Artworks | AbiSilver#1257", value=config["credits"]["abi"])
+        embed_credits.add_field(
+            name="Artworks | AbiSilver#1257",
+            value=config["abi_silver"],
+            inline=False
+        )
+        embed_credits.add_field(
+            name="Developer | meLordlp#3140",
+            value=config["meLordlp"],
+            inline=False
+        )
+        embed_credits.add_field(
+            name="Co-Founder | wetter_lachs#0414",
+            value=config["wetter_lachs"],
+            inline=False
+        )
+        embed_credits.add_field(
+            name="Founder | Redtronics#4794",
+            value=config["redtronics"],
+            inline=False
+        )
         await ctx.send(embed=embed_credits, ephemeral=True)
 
 

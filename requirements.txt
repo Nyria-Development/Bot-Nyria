@@ -1,5 +1,9 @@
+SQLAlchemy
+pymysql
 nextcord
-mysql-connector-python
-deep_translator
-google-api-python-client
+colorama
+mafic
 mcstatus
+deep-translator
+fastapi
+uvicorn
