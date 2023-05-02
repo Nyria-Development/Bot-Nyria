@@ -1,6 +1,8 @@
 import nextcord
+from nextcord import PartialInteractionMessage, WebhookMessage
 from nextcord.ext import commands
-from src.dictionaries import voice
+from src.logger.logger import Logging
+from src.settings.voice import permissions
 
 
 class VoiceUnban(commands.Cog):
@@ -9,15 +11,39 @@ class VoiceUnban(commands.Cog):
 
     @nextcord.slash_command(
         name="kanio-voice-unban",
-        description="Ban any user from your voice channel.",
+        description="Unban banned member from your voice",
         force_global=True
     )
-    async def voice_unban(self, ctx: nextcord.Interaction, voice_channel: nextcord.VoiceChannel, user: nextcord.Member):
-        if not await voice.check_permissions(ctx=ctx, voice=voice_channel):
+    async def voice_unban(
+            self,
+            ctx: nextcord.Interaction,
+            user: nextcord.Member = nextcord.SlashOption(
+                description="The user you want to unban."
+            )
+    ) -> PartialInteractionMessage | WebhookMessage:
+
+        """
+        Attributes
+        ----------
+        :param ctx:
+        :param user
+        :return: None
+        ----------
+        """
+
+        Logging().info(f"Command :: kanio-voice-ban :: {ctx.guild.name} :: {ctx.user}")
+
+        if not await permissions.check(ctx):
             return await ctx.send("You have no permission to do that.", ephemeral=True)
 
-        await voice_channel.set_permissions(user, view_channel=True)
-        await ctx.send(f"You have unbanned {user} from the channel.", ephemeral=True)
+        if ctx.user == user:
+            return await ctx.send("You can't banned or unbanned, because you are the owner.", ephemeral=True)
+
+        await ctx.user.voice.channel.set_permissions(
+            target=user,
+            view_channel=True
+        )
+        await ctx.send(f"You have unbanned the user {user} from your voice.", ephemeral=True)
 
 
 def setup(bot):

@@ -1,7 +1,9 @@
 import nextcord
+from nextcord import PartialInteractionMessage, WebhookMessage
 from nextcord.ext import commands
-from src.templates import embeds
-from src.dictionaries import voice
+from src.logger.logger import Logging
+from src.settings.voice import permissions, settingVoice
+from src.templates.embeds.ctxEmbed import CtxEmbed
 
 
 class VoiceCurrentSettings(commands.Cog):
@@ -13,29 +15,64 @@ class VoiceCurrentSettings(commands.Cog):
         description="Show the current voice settings.",
         force_global=True
     )
-    async def voice_current_settings(self, ctx: nextcord.Interaction, voice_channel: nextcord.VoiceChannel):
-        category = nextcord.utils.get(ctx.guild.categories, name="--- Nyria Voice ---")
-        if category is None:
-            return await ctx.send("The voice system is not active", ephemeral=True)
+    async def voice_current_settings(
+            self,
+            ctx: nextcord.Interaction,
+            voice: nextcord.VoiceChannel = nextcord.SlashOption(
+                description="The voice that you want to see the settings.",
+                required=True
+            )
+    ) -> PartialInteractionMessage | WebhookMessage:
 
-        if voice_channel.name == "Create Voice":
-            return await ctx.send("Please select a user channel not a system channel.", ephemeral=True)
+        """
+        Attributes
+        ----------
+        :param ctx:
+        :param voice:
+        :return:
+        ----------
+        """
 
-        if voice_channel not in category.channels:
+        Logging().info(f"Command :: kanio-voice-current-settings :: {ctx.guild.name} :: {ctx.user}")
+
+        category_name = await settingVoice.get_category(
+            guild_id=ctx.guild.id
+        )
+        if category_name is None:
+            return await ctx.send("The voice system is currently not active.", ephemeral=True)
+
+        category = nextcord.utils.get(ctx.guild.categories, name=category_name.lower())
+
+        if voice not in category.channels:
             return await ctx.send(f"Please select a channel in **{category.name}**", ephemeral=True)
 
-        host = await voice.get_host(voice_channel.id)
-        embed_settings = embeds.TemplateEmbed(
+        if voice.name.lower() == "create voice":
+            return await ctx.send("Please select a user channel not a system channel.", ephemeral=True)
+
+        host = await permissions.get_host(
+            channel_id=ctx.user.voice.channel.id
+        )
+
+        embed_voice_settings = CtxEmbed(
             bot=self.bot,
             ctx=ctx,
-            description="Channel | Kanio",
-            color=nextcord.Color.blurple()
+            color=nextcord.Color.blurple(),
+            description="kanio | Channel"
         )
-        embed_settings.add_field(name="Host", value=host["voice_owner"], inline=False)
-        embed_settings.add_field(name="Aktive Users", value=len(voice_channel.members))
-        embed_settings.add_field(name="Limit", value=voice_channel.user_limit)
+        embed_voice_settings.add_field(
+            name="Host",
+            value=host
+        )
+        embed_voice_settings.add_field(
+            name="Aktive users",
+            value=len(voice.members)
+        )
+        embed_voice_settings.add_field(
+            name="Limit",
+            value=voice.user_limit
+        )
 
-        await ctx.send(embed=embed_settings, ephemeral=True)
+        await ctx.send(embed=embed_voice_settings, ephemeral=True)
 
 
 def setup(bot):

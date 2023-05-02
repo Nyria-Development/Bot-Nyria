@@ -1,6 +1,7 @@
 import nextcord
 from nextcord.ext import commands
-from src.templates import embeds
+from src.logger.logger import Logging
+from src.templates.embeds.ctxEmbed import CtxEmbed
 
 
 class Ban(commands.Cog):
@@ -9,21 +10,50 @@ class Ban(commands.Cog):
 
     @nextcord.slash_command(
         name="metrio-ban",
-        description="Ban a member",
+        description="Ban user from your server.",
         force_global=True,
         default_member_permissions=8
     )
-    async def ban(self, ctx: nextcord.Interaction, user: nextcord.Member, reason: str):
-        await ctx.guild.ban(user=user, reason=reason)
+    async def ban(
+            self,
+            ctx: nextcord.Interaction,
+            user: nextcord.Member = nextcord.SlashOption(
+                description="The user you want to ban."
+            ),
+            reason: str = nextcord.SlashOption(
+                description="The reason because you ban the member",
+                required=False
+            )
+    ) -> None:
 
-        embed_ban = embeds.TemplateEmbed(
+        """
+        Attributes
+        ----------
+        :param ctx:
+        :param user:
+        :param reason:
+        :return: None
+        ----------
+        """
+
+        Logging().info(f"Command :: metrio-ban :: {ctx.guild.name} :: {ctx.user}")
+
+        await ctx.guild.ban(
+            user=user,
+            reason=reason
+        )
+
+        embed_ban = CtxEmbed(
             bot=self.bot,
             ctx=ctx,
-            description="Moderation | Metrio",
-            color=nextcord.Color.red()
+            color=nextcord.Color.red(),
+            description="Metrio | Moderation"
         )
-        embed_ban.add_field(name=f"Banned from {ctx.guild} | Reason", value=reason)
-        await user.send(embed=embed_ban)
+        embed_ban.add_field(
+            name=f"Banned from {ctx.guild}",
+            value=reason
+        )
+        await ctx.send(embed=embed_ban, ephemeral=True)
 
 
 def setup(bot):

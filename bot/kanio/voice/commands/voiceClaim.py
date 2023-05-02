@@ -1,6 +1,8 @@
 import nextcord
+from nextcord import PartialInteractionMessage, WebhookMessage
 from nextcord.ext import commands
-from src.dictionaries import voice
+from src.logger.logger import Logging
+from src.settings.voice import permissions, settingVoice
 
 
 class VoiceClaim(commands.Cog):
@@ -9,23 +11,46 @@ class VoiceClaim(commands.Cog):
 
     @nextcord.slash_command(
         name="kanio-voice-claim",
-        description="Claim a talk",
+        description="Claim a voice",
         force_global=True,
         default_member_permissions=8
     )
-    async def voice_claim(self, ctx: nextcord.Interaction, voice_channel: nextcord.VoiceChannel):
-        category = nextcord.utils.get(ctx.guild.categories, name="--- Nyria Voice ---")
-        if category is None:
-            return await ctx.send("The voice system is not active", ephemeral=True)
+    async def voice_claim(
+            self,
+            ctx: nextcord.Interaction,
+            voice: nextcord.VoiceChannel = nextcord.SlashOption(
+                description="The channel that you want claim",
+                required=True
+            )
+    ) -> None | PartialInteractionMessage | WebhookMessage:
 
-        if voice_channel.name == "Create Voice":
-            return await ctx.send("Please select a user channel not a system channel.", ephemeral=True)
+        """
+        Attributes
+        ----------
+        :param ctx:
+        :param voice:
+        :return: None
+        ----------
+        """
 
-        await voice.change_perms(
-            user=str(ctx.user),
-            voice=voice_channel
+        Logging().info(f"Command :: kanio-voice-claim :: {ctx.guild.name} :: {ctx.user}")
+
+        category_name = await settingVoice.get_category(
+            guild_id=ctx.guild.id
         )
-        await ctx.send("You have now claimed the channel.", ephemeral=True)
+        if category_name is None:
+            return await ctx.send("The voice system is currently not active.", ephemeral=True)
+
+        category = nextcord.utils.get(ctx.guild.categories, name=category_name.lower())
+
+        if voice not in category.channels:
+            return await ctx.send(f"The selected voice is not in the category **{category.name}**")
+
+        await permissions.change_host(
+            channel_id=voice.id,
+            member=ctx.user
+        )
+        await ctx.send("You have claimed the channel.", ephemeral=True)
 
 
 def setup(bot):

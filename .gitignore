@@ -1,4 +1,3 @@
-/.idea
-resources/config/tokens.json
 /venv
-/resources/img
+/.idea
+/resources/config/
