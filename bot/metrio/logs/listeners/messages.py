@@ -1,7 +1,7 @@
 import nextcord
 from nextcord.ext import commands
 from src.settings.logs import settingLogs
-from src.templates.embeds.messageEmbed import MessageEmbed
+from src.templates.embeds.logEmbed import LogEmbed
 
 
 class Messages(commands.Cog):
@@ -25,21 +25,19 @@ class Messages(commands.Cog):
         if message.author.bot:
             return
 
-        logs = await settingLogs.get_logs(
+        logs = settingLogs.get_logs_on_off(
             guild_id=message.guild.id
         )
-        if logs is False:
-            return
 
-        if logs["on_message"] == "off":
+        if not logs or logs["on_message"] == "off":
             return
 
         log_channel = self.bot.get_channel(logs["log_channel_id"])
-        embed_on_message = MessageEmbed(
+        embed_on_message = LogEmbed(
             bot=self.bot,
-            message=message,
-            color=nextcord.Color.red(),
-            description="Metrio | Moderation"
+            user=message.author,
+            title="Message | NewMessage",
+            description=f"{message.author.mention} | {message.channel.mention}"
         )
 
         if message.content:
@@ -73,7 +71,7 @@ class Messages(commands.Cog):
         if before.author.bot:
             return
 
-        logs = await settingLogs.get_logs(
+        logs = settingLogs.get_logs_on_off(
             guild_id=before.guild.id
         )
         if logs is False:
@@ -83,11 +81,11 @@ class Messages(commands.Cog):
             return
 
         log_channel = self.bot.get_channel(logs["log_channel_id"])
-        embed_on_message = MessageEmbed(
+        embed_on_message = LogEmbed(
             bot=self.bot,
-            message=before,
-            color=nextcord.Color.red(),
-            description="Metrio | Moderation"
+            user=after.author,
+            title="Message | MessageEdit",
+            description=f"{after.author.mention} | {after.channel.mention}"
         )
 
         if before.content:
@@ -119,7 +117,7 @@ class Messages(commands.Cog):
         if message.author.bot:
             return
 
-        logs = await settingLogs.get_logs(
+        logs = settingLogs.get_logs_on_off(
             guild_id=message.guild.id
         )
         if logs is False:
@@ -129,11 +127,11 @@ class Messages(commands.Cog):
             return
 
         log_channel = self.bot.get_channel(logs["log_channel_id"])
-        embed_on_message = MessageEmbed(
+        embed_on_message = LogEmbed(
             bot=self.bot,
-            message=message,
-            color=nextcord.Color.red(),
-            description="Metrio | Moderation"
+            user=message.author,
+            title="Message | MessageEdit",
+            description=f"{message.author.mention} | {message.channel.mention}"
         )
 
         if message.content:

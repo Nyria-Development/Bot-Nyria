@@ -1,3 +1,5 @@
+from typing import Union
+
 import nextcord
 from nextcord import PartialInteractionMessage, WebhookMessage
 from nextcord.ext import commands
@@ -9,6 +11,7 @@ from src.templates.embeds.ctxEmbed import CtxEmbed
 class CurrentLogSetting(commands.Cog):
     def __init__(self, bot: commands.Bot):
         self.bot = bot
+        self.config_list = settingLogs.config_log_list
 
     @nextcord.slash_command(
         name="metrio-log-current-settings",
@@ -19,7 +22,7 @@ class CurrentLogSetting(commands.Cog):
     async def log_current_settings(
             self,
             ctx: nextcord.Interaction
-    ) -> PartialInteractionMessage | WebhookMessage:
+    ) -> Union[PartialInteractionMessage, WebhookMessage]:
 
         """
         Attributes
@@ -31,11 +34,11 @@ class CurrentLogSetting(commands.Cog):
 
         Logging().info(f"Command :: metrio-log-current-settings :: {ctx.guild.name} :: {ctx.user}")
 
-        logs = await settingLogs.get_logs(
+        logs = settingLogs.get_logs_on_off(
             guild_id=ctx.guild.id
         )
         if logs is False:
-            return await ctx.send("The log system is not available on this server.")
+            return await ctx.send("The log system is not available on this server.", ephemeral=True)
 
         embed_current_setting_logs = CtxEmbed(
             bot=self.bot,
@@ -47,34 +50,14 @@ class CurrentLogSetting(commands.Cog):
         log_channel = self.bot.get_channel(logs["log_channel_id"])
         embed_current_setting_logs.add_field(
             name="Log channel",
-            value=log_channel.name,
+            value=log_channel.mention,
             inline=False
         )
-        embed_current_setting_logs.add_field(
-            name="Message log",
-            value=logs["on_message"]
-        )
-        embed_current_setting_logs.add_field(
-            name="Message edit log",
-            value=logs["on_message_edit"]
-        )
-        embed_current_setting_logs.add_field(
-            name="Message delete log",
-            value=logs["on_message_delete"],
-            inline=False
-        )
-        embed_current_setting_logs.add_field(
-            name="Reaction log",
-            value=logs["on_reaction_add"]
-        )
-        embed_current_setting_logs.add_field(
-            name="Member ban log",
-            value=logs["on_member_ban"]
-        )
-        embed_current_setting_logs.add_field(
-            name="Member unban log",
-            value=logs["on_member_unban"]
-        )
+        for config in self.config_list:
+            embed_current_setting_logs.add_field(
+                name=" ".join(config.split("_")),
+                value=logs[config]
+            )
 
         await ctx.send(embed=embed_current_setting_logs, ephemeral=True)
 

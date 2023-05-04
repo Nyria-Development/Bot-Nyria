@@ -9,5 +9,5 @@ class Register:
     def register():
         bugs.bugs_base.metadata.create_all(bind=SQLEngine.engine)
         setup.base_setup.metadata.create_all(bind=SQLEngine.engine)
-        level.base_level.metadata.create_all(bind=SQLEngine.engine)
+        #level.base_level.metadata.create_all(bind=SQLEngine.engine)
         Logging().info("Database ready")

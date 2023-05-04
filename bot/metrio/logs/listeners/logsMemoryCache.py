@@ -25,12 +25,7 @@ class LogsMemoryCache(commands.Cog):
             await settingLogs.set_logs(
                 server_id=log[1],
                 log_channel_id=log[2],
-                on_message=log[3],
-                on_message_edit=log[4],
-                on_message_delete=log[5],
-                on_reaction_add=log[6],
-                on_member_ban=log[7],
-                on_member_unban=log[8]
+                log_config_int=log[3]
             )
         Logging().info("All logs in cache")
 

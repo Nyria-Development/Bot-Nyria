@@ -24,7 +24,7 @@ class LogModeration(commands.Cog):
         ----------
         """
 
-        logs = await settingLogs.get_logs(
+        logs = settingLogs.get_logs_on_off(
             guild_id=guild.id
         )
         if logs is False:
@@ -62,7 +62,7 @@ class LogModeration(commands.Cog):
         ----------
         """
 
-        logs = await settingLogs.get_logs(
+        logs = settingLogs.get_logs_on_off(
             guild_id=guild.id
         )
         if logs is False:
