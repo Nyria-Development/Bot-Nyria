@@ -25,36 +25,20 @@ class LogsTable(base_setup):
     id = Column("id", BIGINT, autoincrement=True, primary_key=True)
     server_id = Column("server_id", BIGINT, nullable=False)
     log_channel_id = Column("log_channel_id", BIGINT, nullable=False)
-    on_message = Column("on_message", VARCHAR(3), nullable=False)
-    on_message_edit = Column("on_message_edit", VARCHAR(3), nullable=False)
-    on_message_delete = Column("on_message_delete", VARCHAR(3), nullable=False)
-    on_reaction_add = Column("on_reaction_add", VARCHAR(3), nullable=False)
-    on_member_ban = Column("on_member_ban", VARCHAR(3), nullable=False)
-    on_member_unban = Column("on_member_unban", VARCHAR(3), nullable=False)
+    log_config_int = Column("log_config_int", BIGINT, nullable=False)
 
     def __init__(
             self,
             server_id: int,
             log_channel_id: int,
-            on_message: str,
-            on_message_edit: str,
-            on_message_delete: str,
-            on_reaction_add: str,
-            on_member_ban: str,
-            on_member_unban: str
+            log_config_int: int
     ):
         self.server_id = server_id
         self.log_channel_id = log_channel_id
-        self.on_message = on_message
-        self.on_message_edit = on_message_edit
-        self.on_message_delete = on_message_delete
-        self.on_reaction_add = on_reaction_add
-        self.on_member_ban = on_member_ban
-        self.on_member_unban = on_member_unban
+        self.log_config_int = log_config_int
 
     def __repr__(self):
-        return f"{self.server_id}, {self.log_channel_id}, {self.on_message}, {self.on_message_edit}, " \
-               f"{self.on_message_delete}, {self.on_reaction_add}, {self.on_member_ban}, {self.on_member_unban}"
+        return f"{self.server_id}, {self.log_channel_id}, {self.log_config_int}"
 
 
 class LevelTable(base_setup):
