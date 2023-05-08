@@ -1,5 +1,7 @@
 import nextcord
 from nextcord.ext import commands
+
+from src.logger.logger import Logging
 from src.templates.embeds import ctxEmbed
 
 
@@ -27,6 +29,8 @@ class UserStats(commands.Cog):
         :return:
         ----------
         """
+
+        Logging().info(f"Command :: plirio-user-stats :: {ctx.guild.name} :: {ctx.user}")
 
         embed_user = ctxEmbed.CtxEmbed(
             bot=self.bot,
