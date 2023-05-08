@@ -62,35 +62,43 @@ class LogSetup(commands.Cog):
             self,
             ctx: nextcord.Interaction,
             log_channel: nextcord.TextChannel = nextcord.SlashOption(
-                description="The channel you send the log messages."
+                description="The channel you send the log messages.",
+                required=True
             ),
             on_message: str = nextcord.SlashOption(
                 description="Logs when user send a message",
-                choices=["on", "off"]
+                choices=["on", "off"],
+                required=False
             ),
             on_message_edit: str = nextcord.SlashOption(
                 description="Logs when user edits a message",
-                choices=["on", "off"]
+                choices=["on", "off"],
+                required=False
             ),
             on_message_delete: str = nextcord.SlashOption(
                 description="Logs when user deletes a message",
-                choices=["on", "off"]
+                choices=["on", "off"],
+                required=False
             ),
             on_reaction_add: str = nextcord.SlashOption(
                 description="Logs when user adds a reaction",
-                choices=["on", "off"]
+                choices=["on", "off"],
+                required=False
             ),
             on_reaction_remove: str = nextcord.SlashOption(
                 description="Logs when user removes a reaction",
-                choices=["on", "off"]
+                choices=["on", "off"],
+                required=False
             ),
             on_member_ban: str = nextcord.SlashOption(
                 description="Logs when user banned from the server",
-                choices=["on", "off"]
+                choices=["on", "off"],
+                required=False
             ),
             on_member_unban: str = nextcord.SlashOption(
                 description="Logs when user was unbanned from the server",
-                choices=["on", "off"]
+                choices=["on", "off"],
+                required=False
             )
     ) -> Union[PartialInteractionMessage, WebhookMessage]:
         """
@@ -116,10 +124,15 @@ class LogSetup(commands.Cog):
         query = select(LogsTable).where(LogsTable.server_id == ctx.guild.id)
         log_configuration = db_conn.execute(query).all()
 
-        log_config_list = [on_message, on_message_edit, on_message_delete, on_reaction_add, on_reaction_remove, on_member_ban,
-                           on_member_unban]  # gleicher Reihenfolge wie bei settingsLog.py
-
         if not log_configuration:
+            log_config_list = [on_message if on_message else "off",
+                               on_message_edit if on_message_edit else "off",
+                               on_message_delete if on_message_delete else "off",
+                               on_reaction_add if on_reaction_add else "off",
+                               on_reaction_remove if on_reaction_remove else "off",
+                               on_member_ban if on_member_ban else "off",
+                               on_member_unban if on_member_unban else "off"]  # gleicher Reihenfolge wie bei settingsLog.py
+
             db_session = SQLSession.create_session()
 
             await settingLogs.create_log(
@@ -145,6 +158,15 @@ class LogSetup(commands.Cog):
             )
 
             return await ctx.send(embed=embed_setup_logs, ephemeral=True)
+
+        logs = settingLogs.get_logs_on_off(guild_id=ctx.guild.id)
+        log_config_list = [on_message if on_message else logs['on_message'],
+                           on_message_edit if on_message_edit else logs['on_message_edit'],
+                           on_message_delete if on_message_delete else logs['on_message_delete'],
+                           on_reaction_add if on_reaction_add else logs['on_reaction_add'],
+                           on_reaction_remove if on_reaction_remove else logs['on_reaction_remove'],
+                           on_member_ban if on_member_ban else logs['on_member_ban'],
+                           on_member_unban if on_member_unban else logs['on_member_unban']]  # gleicher Reihenfolge wie bei settingsLog.py
 
         await settingLogs.create_log(
             server_id=ctx.guild.id,
