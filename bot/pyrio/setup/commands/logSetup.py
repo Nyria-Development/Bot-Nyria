@@ -35,7 +35,7 @@ class LogSetup(commands.Cog):
         embed = CtxEmbed(
             bot=self.bot,
             ctx=ctx,
-            color=nextcord.Color.red(),
+            color=nextcord.Color.blue(),
             description="Metrio | Moderation"
         )
 

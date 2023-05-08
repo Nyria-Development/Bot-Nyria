@@ -37,7 +37,7 @@ class Messages(commands.Cog):
             bot=self.bot,
             user=message.author,
             title="Message | NewMessage",
-            description=f"{message.author.mention} | {message.channel.mention}"
+            description=f"{message.author.mention} | {message.jump_url}"
         )
 
         if message.content:
@@ -85,7 +85,7 @@ class Messages(commands.Cog):
             bot=self.bot,
             user=after.author,
             title="Message | MessageEdit",
-            description=f"{after.author.mention} | {after.channel.mention}"
+            description=f"{after.author.mention} | {after.jump_url}"
         )
 
         if before.content:
@@ -131,7 +131,7 @@ class Messages(commands.Cog):
             bot=self.bot,
             user=message.author,
             title="Message | MessageEdit",
-            description=f"{message.author.mention} | {message.channel.mention}"
+            description=f"{message.author.mention} | {message.jump_url}"
         )
 
         if message.content:
