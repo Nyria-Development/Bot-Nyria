@@ -25,7 +25,7 @@ class QueueList(commands.Cog):
     @nextcord.slash_command(
         name="diasio-music-queue-list",
         description="List the queue's songs.",
-        guild_ids=[981547050770505819, 1032632067307085955]
+        guild_ids=[871106346123137054]
     )
     async def queue_list(
             self,

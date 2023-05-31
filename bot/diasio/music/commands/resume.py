@@ -25,7 +25,7 @@ class Resume(commands.Cog):
     @nextcord.slash_command(
         name="diasio-music-resume",
         description="Resume the paused song in voice channel.",
-        guild_ids=[981547050770505819, 1032632067307085955]
+        guild_ids=[871106346123137054]
     )
     async def resume(
             self,

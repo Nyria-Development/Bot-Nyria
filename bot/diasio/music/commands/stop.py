@@ -25,7 +25,7 @@ class Stop(commands.Cog):
     @nextcord.slash_command(
         name="diasio-music-stop",
         description="Stop the playing song",
-        guild_ids=[981547050770505819, 1032632067307085955]
+        guild_ids=[871106346123137054]
     )
     async def stop(
             self,

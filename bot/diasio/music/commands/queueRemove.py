@@ -25,7 +25,7 @@ class QueueRemove(commands.Cog):
     @nextcord.slash_command(
         name="diasio-music-queue-remove",
         description="Remove songs from queue",
-        guild_ids=[981547050770505819, 1032632067307085955]
+        guild_ids=[871106346123137054]
     )
     async def queue_remove(
             self,

@@ -27,7 +27,7 @@ class Play(commands.Cog):
     @nextcord.slash_command(
         name="diasio-music-play",
         description="Play our favourite song in a voice channel",
-        guild_ids=[981547050770505819, 1032632067307085955]
+        guild_ids=[871106346123137054]
     )
     async def play(
             self,
