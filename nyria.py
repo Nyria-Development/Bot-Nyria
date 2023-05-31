@@ -18,7 +18,6 @@ from nextcord.ext import commands
 from src.loader.logins import GetLogin
 from src.logger.logger import Logging
 from src.database.core.register import Register
-from src.services.system import Os
 
 
 class Nyria(commands.Bot):
@@ -26,9 +25,6 @@ class Nyria(commands.Bot):
         super().__init__(
             intents=nextcord.Intents.all()
         )
-
-        # check run as root
-        Os.check_permissions()
 
         # load the token from config
         self.__token = GetLogin().get_token()
