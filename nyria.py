@@ -35,12 +35,12 @@ class Nyria(commands.Bot):
         Logging().info("Build-in help command removed")
 
         # load all cogs
-        for root, dirs, files in os.walk("bot/"):
+        for root, dirs, files in os.walk("bot"):
             for name in files:
                 if str(root).endswith("__pycache__"):
                     continue
 
-                self.load_extension(os.path.join(root, name).replace("/", ".")[:-3])
+                self.load_extension(os.path.join(root, name).replace("\\", ".")[:-3])
 
         Logging().info("All cogs loaded")
 

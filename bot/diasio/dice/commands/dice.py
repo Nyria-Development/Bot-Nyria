@@ -33,7 +33,6 @@ class Dice(commands.Cog):
             first_number: int = nextcord.SlashOption(description="The first number. Starts here"),
             second_number: int = nextcord.SlashOption(description="The second number. Ends here")
     ) -> PartialInteractionMessage | WebhookMessage:
-
         """
         Attributes
         ----------

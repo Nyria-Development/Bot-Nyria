@@ -15,55 +15,51 @@ from nextcord.ext import commands
 from src.settings.voice import settingVoice, permissions
 
 
-class VoiceManager(commands.Cog):
-    def __init__(self, bot: commands.Bot):
-        self.bot = bot
+async def voice_manager(
+        bot,
+        member: nextcord.Member,
+        before: nextcord.VoiceState,
+        after: nextcord.VoiceState
+) -> None:
+    """
+    Attributes
+    ----------
+    :param bot:
+    :param member:
+    :param before:
+    :param after:
+    :return: None
+    """
 
-    @commands.Cog.listener()
-    async def on_voice_state_update(
-            self,
-            member: nextcord.Member,
-            before: nextcord.VoiceState,
-            after: nextcord.VoiceState
-    ) -> None:
+    category_name = await settingVoice.get_category(
+        guild_id=member.guild.id
+    )
+    if category_name is None:
+        return
 
-        """
-        Attributes
-        ----------
-        :param member:
-        :param before:
-        :param after:
-        :return: None
-        """
+    category = nextcord.utils.get(member.guild.categories, name=category_name.lower())
 
-        category_name = await settingVoice.get_category(
-            guild_id=member.guild.id
+    if str(after.channel) == "Create Voice" and len(category.channels) <= 48:
+        channel = await member.guild.create_voice_channel(
+            name=f"{member.name}-VC",
+            category=category
         )
-        if category_name is None:
-            return
 
-        category = nextcord.utils.get(member.guild.categories, name=category_name.lower())
+        await permissions.add_perms(
+            channel_id=channel.id,
+            member=member
+        )
 
-        if str(after.channel) == "Create Voice" and len(category.channels) <= 48:
-            channel = await member.guild.create_voice_channel(
-                name=f"{member.name}-VC",
-                category=category
-            )
+        await member.move_to(channel)
 
-            await permissions.add_perms(
-                channel_id=channel.id,
-                member=member
-            )
-
-            await member.move_to(channel)
-
-        if before.channel in category.channels and str(before.channel) != "Create Voice" and len(before.channel.members) == 0:
-            await permissions.remove_perms(
-                channel_id=before.channel.id
-            )
-            empty_channel = self.bot.get_channel(before.channel.id)
-            await empty_channel.delete()
+    if before.channel in category.channels and str(before.channel) != "Create Voice" and len(
+            before.channel.members) == 0:
+        await permissions.remove_perms(
+            channel_id=before.channel.id
+        )
+        empty_channel = bot.get_channel(before.channel.id)
+        await empty_channel.delete()
 
 
 def setup(bot):
-    bot.add_cog(VoiceManager(bot))
+    pass

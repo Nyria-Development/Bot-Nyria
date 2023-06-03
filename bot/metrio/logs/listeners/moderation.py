@@ -16,86 +16,81 @@ from src.settings.logs import settingLogs
 from src.templates.embeds.standAloneEmbed import StandAloneEmbed
 
 
-class LogModeration(commands.Cog):
-    def __init__(self, bot: commands.Bot):
-        self.bot = bot
+async def on_member_ban_log(
+        bot,
+        guild: nextcord.Guild,
+        user: nextcord.Member
+) -> None:
+    """
+    Attributes
+    ----------
+    :param bot:
+    :param guild:
+    :param user:
+    :return: None
+    ----------
+    """
 
-    @commands.Cog.listener()
-    async def on_member_ban(
-            self,
-            guild: nextcord.Guild,
-            user: nextcord.Member
-    ) -> None:
+    logs = settingLogs.get_logs_on_off(
+        guild_id=guild.id
+    )
+    if logs is False:
+        return
 
-        """
-        Attributes
-        ----------
-        :param guild:
-        :param user:
-        :return: None
-        ----------
-        """
+    if logs["on_message"] == "off":
+        return
 
-        logs = settingLogs.get_logs_on_off(
-            guild_id=guild.id
-        )
-        if logs is False:
-            return
+    log_channel = bot.get_channel(logs["log_channel_id"])
 
-        if logs["on_message"] == "off":
-            return
+    embed_member_ban = StandAloneEmbed(
+        bot=bot,
+        color=nextcord.Color.red(),
+        description="Metrio | Moderation"
+    )
+    embed_member_ban.add_field(
+        name="User banned",
+        value=str(user)
+    )
+    await log_channel.send(embed=embed_member_ban)
 
-        log_channel = self.bot.get_channel(logs["log_channel_id"])
 
-        embed_member_ban = StandAloneEmbed(
-            bot=self.bot,
-            color=nextcord.Color.red(),
-            description="Metrio | Moderation"
-        )
-        embed_member_ban.add_field(
-            name="User banned",
-            value=str(user)
-        )
-        await log_channel.send(embed=embed_member_ban)
+async def on_member_unban_log(
+        bot,
+        guild: nextcord.Guild,
+        user: nextcord.Member
+) -> None:
+    """
+    Attributes
+    ----------
+    :param bot:
+    :param guild:
+    :param user:
+    :return: None
+    ----------
+    """
 
-    @commands.Cog.listener()
-    async def on_member_unban(
-            self,
-            guild: nextcord.Guild,
-            user: nextcord.Member
-    ) -> None:
+    logs = settingLogs.get_logs_on_off(
+        guild_id=guild.id
+    )
+    if logs is False:
+        return
 
-        """
-        Attributes
-        ----------
-        :param guild:
-        :param user:
-        :return: None
-        ----------
-        """
+    if logs["on_message"] == "off":
+        return
 
-        logs = settingLogs.get_logs_on_off(
-            guild_id=guild.id
-        )
-        if logs is False:
-            return
+    log_channel = bot.get_channel(logs["log_channel_id"])
 
-        if logs["on_message"] == "off":
-            return
-
-        log_channel = self.bot.get_channel(logs["log_channel_id"])
-
-        embed_member_unban = StandAloneEmbed(
-            bot=self.bot,
-            color=nextcord.Color.red(),
-            description="Metrio | Moderation"
-        )
-        embed_member_unban.add_field(
-            name="User unbanned",
-            value=str(user)
-        )
-        await log_channel.send(embed=embed_member_unban)
+    embed_member_unban = StandAloneEmbed(
+        bot=bot,
+        color=nextcord.Color.red(),
+        description="Metrio | Moderation"
+    )
+    embed_member_unban.add_field(
+        name="User unbanned",
+        value=str(user)
+    )
+    await log_channel.send(embed=embed_member_unban)
 
 
 def setup(bot):
-    bot.add_cog(LogModeration(bot))
+    pass

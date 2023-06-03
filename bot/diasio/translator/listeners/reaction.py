@@ -19,55 +19,50 @@ from deep_translator import GoogleTranslator
 from src.templates.embeds.messageEmbed import MessageEmbed
 
 
-class TranslateReaction(commands.Cog):
-    def __init__(self, bot: commands.Bot):
-        self.bot = bot
+async def translate_reaction(
+        bot,
+        payload: nextcord.RawReactionActionEvent
+) -> None:
+    """
+    Attributes
+    ----------
+    :param bot:
+    :param payload:
+    :return: None
+    ----------
+    """
 
-    @commands.Cog.listener()
-    async def on_raw_reaction_add(
-            self,
-            payload: nextcord.RawReactionActionEvent
-    ) -> None:
+    supported_languages = GetTranslator().get_reaction_language()[0]
+    key: str = await Convert.convert_to_byte(str(payload.emoji))
+    user = payload.member
 
-        """
-        Attributes
-        ----------
-        :param payload:
-        :return: None
-        ----------
-        """
+    try:
+        language = supported_languages[key]
+    except KeyError:
+        return
 
-        supported_languages = GetTranslator().get_reaction_language()[0]
-        key: str = await Convert.convert_to_byte(str(payload.emoji))
-        user = payload.member
+    guild = bot.get_guild(payload.guild_id)
+    Logging().info(f"Listener :: translate-reaction :: {guild} :: {payload.member}")
 
-        try:
-            language = supported_languages[key]
-        except KeyError:
-            return
+    channel = bot.get_channel(payload.channel_id)
+    message = await channel.fetch_message(payload.message_id)
 
-        guild = self.bot.get_guild(payload.guild_id)
-        Logging().info(f"Listener :: translate-reaction :: {guild} :: {payload.member}")
+    translated_message = GoogleTranslator(
+        target=language
+    ).translate(text=message.content)
 
-        channel = self.bot.get_channel(payload.channel_id)
-        message = await channel.fetch_message(payload.message_id)
-
-        translated_message = GoogleTranslator(
-            target=language
-        ).translate(text=message.content)
-
-        embed_translation = MessageEmbed(
-            bot=self.bot,
-            message=message,
-            color=nextcord.Color.orange(),
-            description="Fun | Diasio"
-        )
-        embed_translation.add_field(
-            name="Translation",
-            value=translated_message
-        )
-        await user.send(embed=embed_translation)
+    embed_translation = MessageEmbed(
+        bot=bot,
+        message=message,
+        color=nextcord.Color.orange(),
+        description="Fun | Diasio"
+    )
+    embed_translation.add_field(
+        name="Translation",
+        value=translated_message
+    )
+    await user.send(embed=embed_translation)
 
 
 def setup(bot):
-    bot.add_cog(TranslateReaction(bot))
+    pass

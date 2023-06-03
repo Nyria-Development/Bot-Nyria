@@ -11,148 +11,142 @@
 # or other liability arising from the use or inability to use the code.
 
 import nextcord
-from nextcord.ext import commands
 from src.settings.logs import settingLogs
 from src.templates.embeds.logEmbed import LogEmbed
 
 
-class Messages(commands.Cog):
-    def __init__(self, bot: commands.Bot):
-        self.bot = bot
+async def on_message_log(
+        bot,
+        message: nextcord.Message
+) -> None:
+    """
+    Attributes
+    ----------
+    :param bot:
+    :param message:
+    :return: None
+    ----------
+    """
 
-    @commands.Cog.listener()
-    async def on_message(
-            self,
-            message: nextcord.Message
-    ) -> None:
+    if message.author.bot:
+        return
 
-        """
-        Attributes
-        ----------
-        :param message:
-        :return: None
-        ----------
-        """
+    logs = settingLogs.get_logs_on_off(
+        guild_id=message.guild.id
+    )
 
-        if message.author.bot:
-            return
+    if not logs or logs["on_message"] == "off":
+        return
 
-        logs = settingLogs.get_logs_on_off(
-            guild_id=message.guild.id
+    log_channel = bot.get_channel(logs["log_channel_id"])
+    embed_on_message = LogEmbed(
+        bot=bot,
+        user=message.author,
+        title="Message | NewMessage",
+        description=f"{message.author.mention} | {message.jump_url}"
+    )
+
+    if message.content:
+        embed_on_message.add_field(
+            name="Content",
+            value=message.content
         )
-
-        if not logs or logs["on_message"] == "off":
-            return
-
-        log_channel = self.bot.get_channel(logs["log_channel_id"])
-        embed_on_message = LogEmbed(
-            bot=self.bot,
-            user=message.author,
-            title="Message | NewMessage",
-            description=f"{message.author.mention} | {message.jump_url}"
+    if message.attachments:
+        embed_on_message.add_field(
+            name="Attachments",
+            value=message.attachments
         )
+    await log_channel.send(embed=embed_on_message)
 
-        if message.content:
-            embed_on_message.add_field(
-                name="Content",
-                value=message.content
-            )
-        if message.attachments:
-            embed_on_message.add_field(
-                name="Attachments",
-                value=message.attachments
-            )
-        await log_channel.send(embed=embed_on_message)
 
-    @commands.Cog.listener()
-    async def on_message_edit(
-            self,
-            before: nextcord.Message,
-            after: nextcord.Message
-    ) -> None:
+async def on_message_edit_log(
+        bot,
+        before: nextcord.Message,
+        after: nextcord.Message
+) -> None:
+    """
+    Attributes
+    ----------
+    :param bot:
+    :param before
+    :param after
+    :return: None
+    ----------
+    """
 
-        """
-        Attributes
-        ----------
-        :param before
-        :param after
-        :return: None
-        ----------
-        """
+    if before.author.bot:
+        return
 
-        if before.author.bot:
-            return
+    logs = settingLogs.get_logs_on_off(
+        guild_id=before.guild.id
+    )
+    if logs is False:
+        return
 
-        logs = settingLogs.get_logs_on_off(
-            guild_id=before.guild.id
+    if logs["on_message_edit"] == "off":
+        return
+
+    log_channel = bot.get_channel(logs["log_channel_id"])
+    embed_on_message = LogEmbed(
+        bot=bot,
+        user=after.author,
+        title="Message | MessageEdit",
+        description=f"{after.author.mention} | {after.jump_url}"
+    )
+
+    if before.content:
+        embed_on_message.add_field(
+            name="Content before",
+            value=before.content,
+            inline=False
         )
-        if logs is False:
-            return
-
-        if logs["on_message_edit"] == "off":
-            return
-
-        log_channel = self.bot.get_channel(logs["log_channel_id"])
-        embed_on_message = LogEmbed(
-            bot=self.bot,
-            user=after.author,
-            title="Message | MessageEdit",
-            description=f"{after.author.mention} | {after.jump_url}"
+        embed_on_message.add_field(
+            name="Content after",
+            value=after.content
         )
+    await log_channel.send(embed=embed_on_message)
 
-        if before.content:
-            embed_on_message.add_field(
-                name="Content before",
-                value=before.content,
-                inline=False
-            )
-            embed_on_message.add_field(
-                name="Content after",
-                value=after.content
-            )
-        await log_channel.send(embed=embed_on_message)
 
-    @commands.Cog.listener()
-    async def on_message_delete(
-            self,
-            message: nextcord.Message
-    ) -> None:
+async def on_message_delete_log(
+        bot,
+        message: nextcord.Message
+) -> None:
+    """
+    Attributes
+    ----------
+    :param bot:
+    :param message:
+    :return: None
+    ----------
+    """
 
-        """
-        Attributes
-        ----------
-        :param message:
-        :return: None
-        ----------
-        """
+    if message.author.bot:
+        return
 
-        if message.author.bot:
-            return
+    logs = settingLogs.get_logs_on_off(
+        guild_id=message.guild.id
+    )
+    if logs is False:
+        return
 
-        logs = settingLogs.get_logs_on_off(
-            guild_id=message.guild.id
+    if logs["on_message_delete"] == "off":
+        return
+
+    log_channel = bot.get_channel(logs["log_channel_id"])
+    embed_on_message = LogEmbed(
+        bot=bot,
+        user=message.author,
+        title="Message | MessageEdit",
+        description=f"{message.author.mention} | {message.jump_url}"
+    )
+
+    if message.content:
+        embed_on_message.add_field(
+            name="Message deleted",
+            value=message.content
         )
-        if logs is False:
-            return
-
-        if logs["on_message_delete"] == "off":
-            return
-
-        log_channel = self.bot.get_channel(logs["log_channel_id"])
-        embed_on_message = LogEmbed(
-            bot=self.bot,
-            user=message.author,
-            title="Message | MessageEdit",
-            description=f"{message.author.mention} | {message.jump_url}"
-        )
-
-        if message.content:
-            embed_on_message.add_field(
-                name="Message deleted",
-                value=message.content
-            )
-        await log_channel.send(embed=embed_on_message)
+    await log_channel.send(embed=embed_on_message)
 
 
 def setup(bot):
-    bot.add_cog(Messages(bot))
+    pass

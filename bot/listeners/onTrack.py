@@ -10,24 +10,33 @@
 # No warranty is provided for the code, and Nyria shall not be liable for any claims, damages,
 # or other liability arising from the use or inability to use the code.
 
+import nextcord
+from mafic import TrackEndEvent
 from nextcord.ext import commands
-from src.logger.logger import Logging
+
+from bot.diasio.music.listeners.songEnd import on_track_end
 
 
-async def ready(bot_user):
-    Logging().info(f"Bot is logged in as: {bot_user}")
-    print("""
-        )                      
-     ( /(                      
-     )\()) (     (   (      )  
-    ((_)\  )\ )  )(  )\  ( /(  
-     _((_)(()/( (()\((_) )(_)) 
-    | \| | )(_)) ((_)(_)((_)_  
-    | .` || || || '_|| |/ _` | 
-    |_|\_| \_, ||_|  |_|\__,_| 
-           |__/  
-    """)
+class OnTrack(commands.Cog):
+    def __init__(self, bot: commands.Bot):
+        self.bot = bot
+
+    @commands.Cog.listener()
+    async def on_track_end(
+            self,
+            event: TrackEndEvent
+    ) -> None:
+        """
+        Attributes
+        ----------
+        :param event:
+        :return:
+        ----------
+        """
+
+        # bot/diasio/music/listeners/songEnd.py
+        await on_track_end(event)
 
 
 def setup(bot):
-    pass
+    bot.add_cog(OnTrack(bot))
