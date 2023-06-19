@@ -40,7 +40,7 @@ async def on_member_ban_log(
     if logs["on_message"] == "off":
         return
 
-    log_channel = bot.get_channel(logs["log_channel_id"])
+    log_channel = logs["log_channel"]
 
     embed_member_ban = StandAloneEmbed(
         bot=bot,
@@ -78,7 +78,7 @@ async def on_member_unban_log(
     if logs["on_message"] == "off":
         return
 
-    log_channel = bot.get_channel(logs["log_channel_id"])
+    log_channel = logs["log_channel"]
 
     embed_member_unban = StandAloneEmbed(
         bot=bot,
