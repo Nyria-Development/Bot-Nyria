@@ -172,15 +172,17 @@ class LogSetup(commands.Cog):
             return await ctx.send(embed=embed_setup_logs, ephemeral=True)
 
         logs = settingLogs.get_logs_on_off(guild_id=ctx.guild.id)
+        # same order as in settingsLog.py
         log_config_list = [on_message if on_message else logs['on_message'],
                            on_message_edit if on_message_edit else logs['on_message_edit'],
                            on_message_delete if on_message_delete else logs['on_message_delete'],
                            on_reaction_add if on_reaction_add else logs['on_reaction_add'],
                            on_reaction_remove if on_reaction_remove else logs['on_reaction_remove'],
                            on_member_ban if on_member_ban else logs['on_member_ban'],
-                           on_member_unban if on_member_unban else logs['on_member_unban']]  # gleicher Reihenfolge wie bei settingsLog.py
+                           on_member_unban if on_member_unban else logs['on_member_unban']]
 
         await settingLogs.create_log(
+            bot=self.bot,
             server_id=ctx.guild.id,
             log_channel_id=log_channel.id,
             log_config_list=log_config_list

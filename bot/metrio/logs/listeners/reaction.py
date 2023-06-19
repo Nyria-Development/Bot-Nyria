@@ -40,7 +40,8 @@ async def on_raw_reaction_add_log(
     if logs["on_reaction_add"] == "off":
         return
 
-    log_channel = bot.get_channel(logs["log_channel_id"])
+    log_channel = logs["log_channel"]
+
     payload_user = bot.get_user(payload.user_id)
     payload_message = await bot.get_channel(payload.channel_id).fetch_message(payload.message_id)
     embed_on_reaction_add = LogEmbed(
@@ -77,7 +78,7 @@ async def on_raw_reaction_remove_log(
     if logs["on_reaction_remove"] == "off" or not logs:
         return
 
-    log_channel = bot.get_channel(logs["log_channel_id"])
+    log_channel = logs["log_channel"]
     payload_user = bot.get_user(payload.user_id)
     payload_message = await bot.get_channel(payload.channel_id).fetch_message(payload.message_id)
     embed_on_reaction_remove = LogEmbed(

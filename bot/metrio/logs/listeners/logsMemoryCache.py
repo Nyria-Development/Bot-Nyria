@@ -17,7 +17,7 @@ from src.database.tables.setup import LogsTable
 from src.settings.logs import settingLogs
 
 
-async def logs_memory_cache():
+async def logs_memory_cache(bot):
     db_conn = SQLEngine.engine.connect()
 
     query = select(LogsTable)
@@ -29,6 +29,7 @@ async def logs_memory_cache():
 
     for log in logs:
         await settingLogs.set_logs(
+            bot=bot,
             server_id=log[1],
             log_channel_id=log[2],
             log_config_int=log[3]

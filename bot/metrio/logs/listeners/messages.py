@@ -38,7 +38,7 @@ async def on_message_log(
     if not logs or logs["on_message"] == "off":
         return
 
-    log_channel = bot.get_channel(logs["log_channel_id"])
+    log_channel = logs["log_channel"]
     embed_on_message = LogEmbed(
         bot=bot,
         user=message.author,
@@ -86,7 +86,7 @@ async def on_message_edit_log(
     if logs["on_message_edit"] == "off":
         return
 
-    log_channel = bot.get_channel(logs["log_channel_id"])
+    log_channel = logs["log_channel"]
     embed_on_message = LogEmbed(
         bot=bot,
         user=after.author,
