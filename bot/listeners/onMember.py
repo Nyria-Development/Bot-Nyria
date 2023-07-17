@@ -13,7 +13,8 @@
 import nextcord
 from nextcord.ext import commands
 
-from bot.metrio.logs.listeners.moderation import on_member_ban_log, on_member_unban_log
+from bot.metrio.logs.listeners.moderation import on_member_ban_log, on_member_unban_log, on_member_join_log, \
+    on_member_remove_log, on_member_update_nick_log, on_member_update_avatar_log
 
 
 class OnMember(commands.Cog):
@@ -30,7 +31,8 @@ class OnMember(commands.Cog):
         ----------
         """
 
-        pass
+        # bot/metrio/logs/listeners/moderation.py
+        await on_member_join_log(self.bot, guild=member.guild, member=member)
 
     @commands.Cog.listener()
     async def on_member_remove(self, member: nextcord.Member) -> None:
@@ -42,7 +44,8 @@ class OnMember(commands.Cog):
         ----------
         """
 
-        pass
+        # bot/metrio/logs/listeners/moderation.py
+        await on_member_remove_log(self.bot, guild=member.guild, member=member)
 
     @commands.Cog.listener()
     async def on_member_ban(self, guild: nextcord.Guild, user: nextcord.Member) -> None:
@@ -83,6 +86,12 @@ class OnMember(commands.Cog):
         ----------
         """
 
+        if before.nick != after.nick:
+            # bot/metrio/logs/listeners/moderation.py
+            await on_member_update_nick_log(self.bot, before=before, after=after, guild=after.guild)
+        if before.avatar != after.avatar:
+            # bot/metrio/logs/listeners/moderation.py
+            await on_member_update_avatar_log(self.bot, before=before, after=after, guild=after.guild)
         pass
 
 

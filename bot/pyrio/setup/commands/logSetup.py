@@ -10,8 +10,6 @@
 # No warranty is provided for the code, and Nyria shall not be liable for any claims, damages,
 # or other liability arising from the use or inability to use the code.
 
-from typing import Union
-
 import nextcord
 from nextcord import PartialInteractionMessage, WebhookMessage
 from nextcord.ext import commands
@@ -102,6 +100,51 @@ class LogSetup(commands.Cog):
                 choices=["on", "off"],
                 required=False
             ),
+            on_role_add: str = nextcord.SlashOption(
+                description="Logs when user removes a reaction",
+                choices=["on", "off"],
+                required=False
+            ),
+            on_role_remove: str = nextcord.SlashOption(
+                description="Logs when user removes a reaction",
+                choices=["on", "off"],
+                required=False
+            ),
+            on_role_update: str = nextcord.SlashOption(
+                description="Logs when user removes a reaction",
+                choices=["on", "off"],
+                required=False
+            ),
+            on_role_create: str = nextcord.SlashOption(
+                description="Logs when user removes a reaction",
+                choices=["on", "off"],
+                required=False
+            ),
+            on_role_delete: str = nextcord.SlashOption(
+                description="Logs when user removes a reaction",
+                choices=["on", "off"],
+                required=False
+            ),
+            on_member_update_nick: str = nextcord.SlashOption(
+                description="Logs when user removes a reaction",
+                choices=["on", "off"],
+                required=False
+            ),
+            on_member_update_avatar: str = nextcord.SlashOption(
+                description="Logs when user removes a reaction",
+                choices=["on", "off"],
+                required=False
+            ),
+            on_member_join: str = nextcord.SlashOption(
+                description="Logs when user removes a reaction",
+                choices=["on", "off"],
+                required=False
+            ),
+            on_member_leave: str = nextcord.SlashOption(
+                description="Logs when user removes a reaction",
+                choices=["on", "off"],
+                required=False
+            ),
             on_member_ban: str = nextcord.SlashOption(
                 description="Logs when user banned from the server",
                 choices=["on", "off"],
@@ -112,12 +155,21 @@ class LogSetup(commands.Cog):
                 choices=["on", "off"],
                 required=False
             )
-    ) -> Union[PartialInteractionMessage, WebhookMessage]:
+    ) -> PartialInteractionMessage | WebhookMessage:
         """
         Attributes
         ----------
-        :param on_reaction_remove:
         :param ctx:
+        :param on_role_add:
+        :param on_role_remove:
+        :param on_role_update:
+        :param on_role_create:
+        :param on_role_delete:
+        :param on_member_update_avatar:
+        :param on_member_update_nick:
+        :param on_member_join:
+        :param on_member_leave:
+        :param on_reaction_remove:
         :param log_channel:
         :param on_message:
         :param on_message_edit:
@@ -142,17 +194,26 @@ class LogSetup(commands.Cog):
                                on_message_delete if on_message_delete else "off",
                                on_reaction_add if on_reaction_add else "off",
                                on_reaction_remove if on_reaction_remove else "off",
+                               on_role_add if on_role_add else "off",
+                               on_role_remove if on_role_remove else "off",
+                               on_role_update if on_role_update else "off",
+                               on_role_create if on_role_create else "off",
+                               on_role_delete if on_role_delete else "off",
+                               on_member_update_nick if on_member_update_nick else "off",
+                               on_member_update_avatar if on_member_update_avatar else "off",
+                               on_member_join if on_member_join else "off",
+                               on_member_leave if on_member_leave else "off",
                                on_member_ban if on_member_ban else "off",
-                               on_member_unban if on_member_unban else "off"]  # gleicher Reihenfolge wie bei settingsLog.py
+                               on_member_unban if on_member_unban else "off"]
 
             db_session = SQLSession.create_session()
 
             await settingLogs.create_log(
+                bot=self.bot,
                 server_id=ctx.guild.id,
                 log_channel_id=log_channel.id,
                 log_config_list=log_config_list
             )
-
             logs = LogsTable(
                 server_id=ctx.guild.id,
                 log_channel_id=log_channel.id,
@@ -178,6 +239,15 @@ class LogSetup(commands.Cog):
                            on_message_delete if on_message_delete else logs['on_message_delete'],
                            on_reaction_add if on_reaction_add else logs['on_reaction_add'],
                            on_reaction_remove if on_reaction_remove else logs['on_reaction_remove'],
+                           on_role_add if on_role_add else logs['on_role_add'],
+                           on_role_remove if on_role_remove else logs['on_role_remove'],
+                           on_role_update if on_role_update else logs['on_role_update'],
+                           on_role_create if on_role_create else logs['on_role_create'],
+                           on_role_delete if on_role_delete else logs['on_role_delete'],
+                           on_member_update_nick if on_member_update_nick else logs['on_member_update_nick'],
+                           on_member_update_avatar if on_member_update_avatar else logs['on_member_update_avatar'],
+                           on_member_join if on_member_join else logs['on_member_join'],
+                           on_member_leave if on_member_leave else logs['on_member_leave'],
                            on_member_ban if on_member_ban else logs['on_member_ban'],
                            on_member_unban if on_member_unban else logs['on_member_unban']]
 
