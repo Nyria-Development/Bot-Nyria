@@ -125,6 +125,21 @@ class LogSetup(commands.Cog):
                 choices=["on", "off"],
                 required=False
             ),
+            on_channel_create: str = nextcord.SlashOption(
+                description="Logs when user removes a reaction",
+                choices=["on", "off"],
+                required=False
+            ),
+            on_channel_delete: str = nextcord.SlashOption(
+                description="Logs when user removes a reaction",
+                choices=["on", "off"],
+                required=False
+            ),
+            on_channel_update: str = nextcord.SlashOption(
+                description="Logs when user removes a reaction",
+                choices=["on", "off"],
+                required=False
+            ),
             on_member_update_nick: str = nextcord.SlashOption(
                 description="Logs when user removes a reaction",
                 choices=["on", "off"],
@@ -159,6 +174,9 @@ class LogSetup(commands.Cog):
         """
         Attributes
         ----------
+        :param on_channel_update:
+        :param on_channel_delete:
+        :param on_channel_create:
         :param ctx:
         :param on_role_add:
         :param on_role_remove:
@@ -199,6 +217,9 @@ class LogSetup(commands.Cog):
                                on_role_update if on_role_update else "off",
                                on_role_create if on_role_create else "off",
                                on_role_delete if on_role_delete else "off",
+                               on_channel_create if on_channel_create else "off",
+                               on_channel_delete if on_channel_delete else "off",
+                               on_channel_update if on_channel_update else "off",
                                on_member_update_nick if on_member_update_nick else "off",
                                on_member_update_avatar if on_member_update_avatar else "off",
                                on_member_join if on_member_join else "off",
@@ -244,6 +265,9 @@ class LogSetup(commands.Cog):
                            on_role_update if on_role_update else logs['on_role_update'],
                            on_role_create if on_role_create else logs['on_role_create'],
                            on_role_delete if on_role_delete else logs['on_role_delete'],
+                           on_channel_create if on_channel_create else logs['on_channel_create'],
+                           on_channel_delete if on_channel_delete else logs['on_channel_delete'],
+                           on_channel_update if on_channel_update else logs['on_channel_update'],
                            on_member_update_nick if on_member_update_nick else logs['on_member_update_nick'],
                            on_member_update_avatar if on_member_update_avatar else logs['on_member_update_avatar'],
                            on_member_join if on_member_join else logs['on_member_join'],

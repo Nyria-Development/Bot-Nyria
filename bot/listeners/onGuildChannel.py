@@ -13,6 +13,9 @@
 import nextcord
 from nextcord.ext import commands
 
+from bot.metrio.logs.listeners.channels import on_guild_channel_create_log, on_guild_channel_delete_log, \
+    on_guild_channel_update_log
+
 
 class OnGuildChannel(commands.Cog):
     def __init__(self, bot: commands.Bot):
@@ -31,7 +34,8 @@ class OnGuildChannel(commands.Cog):
         ----------
         """
 
-        pass
+        # bot/metrio/logs/listeners/channels.py
+        await on_guild_channel_create_log(bot=self.bot, guild=channel.guild, channel=channel)
 
     @commands.Cog.listener()
     async def on_guild_channel_delete(
@@ -46,7 +50,8 @@ class OnGuildChannel(commands.Cog):
         ----------
         """
 
-        pass
+        # bot/metrio/logs/listeners/channels.py
+        await on_guild_channel_delete_log(bot=self.bot, guild=channel.guild, channel=channel)
 
     @commands.Cog.listener()
     async def on_guild_channel_update(
@@ -63,7 +68,11 @@ class OnGuildChannel(commands.Cog):
         ----------
         """
 
-        pass
+        print(before, after)
+        print(before.name, after.name)
+
+        # bot/metrio/logs/listeners/channels.py
+        await on_guild_channel_update_log(bot=self.bot, guild=after.guild, before=before, after=after)
 
 
 def setup(bot):
